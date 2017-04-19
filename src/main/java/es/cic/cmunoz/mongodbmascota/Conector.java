@@ -21,15 +21,12 @@ import org.bson.Document;
  */
 public final class Conector {
 
-    private MongoClient mongoClient;
-    private MongoDatabase mongoDataBase;
-
     private static final Logger LOG = Logger.getLogger(Conector.class.getName());
 
     private static final String URLBBDD = "localhost";
     private static final int PUERTOBBDD = 27017;
-    private static final String USUARIO = "usuario";
-    private static final String CONTRASENNA = "contrasenna";
+//    private static final String USUARIO = "usuario";
+//    private static final String CONTRASENNA = "contrasenna";
     private static final String BASEDATOS_NOMBRE = "PRUEBA";
 
     // TODO JAVADOC
@@ -38,14 +35,15 @@ public final class Conector {
     }
 
     // TODO JAVADOC
-    public void prepararCliente() {
-
-        LOG.info("Intentando conectar a base de datos...");
-        mongoClient = new MongoClient(URLBBDD, PUERTOBBDD);
-
-        mongoDataBase = conexionBaseDatos(mongoClient);
+    public MongoDatabase prepararCliente() {
         
+        LOG.info("Intentando conectar a base de datos...");
+        MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD);
+        
+        MongoDatabase conexion = conexionBaseDatos(mongoClient);
         LOG.log(Level.INFO, "Conexion con la base de datos exitosa");
+        
+        return conexion;
 
     }
 
@@ -56,11 +54,12 @@ public final class Conector {
     // TODO JAVADOC y quitar deprecados
     public MongoCollection<Document> buscarCrearColeccion(String nombreColeccion) {
 
+        MongoDatabase baseDatos = prepararCliente();
         LOG.info("Conexión Exitosa A La Base De Datos");
 
         LOG.log(Level.INFO, "Creando La Coleccion {0} Si No Existia", nombreColeccion);
 
-        MongoCollection<Document> coleccionEncontrada = mongoDataBase.getCollection(nombreColeccion);
+        MongoCollection<Document> coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
 
         return coleccionEncontrada;
 
@@ -71,17 +70,27 @@ public final class Conector {
 
         boolean exito = false;
 
-        MongoCollection<Document> coleccionGuardar;
-        coleccionGuardar = mongoDataBase.getCollection(nombreColeccion);
+        try {
 
-        Document objetoGuardar = new Document();
-        objetoGuardar.put("nombre", "Nautilus");
-        objetoGuardar.put("rol", "Tanque");
-        objetoGuardar.put("maestria", 6);
+            MongoDatabase baseDatos = prepararCliente();
+            
+            MongoCollection<Document> coleccionGuardar;
+            coleccionGuardar = baseDatos.getCollection(nombreColeccion);
 
-        coleccionGuardar.insertOne(objetoGuardar);
+            Document objetoGuardar = new Document();
+            objetoGuardar.put("nombre", "Janna");
+            objetoGuardar.put("rol", "Apoyo");
+            objetoGuardar.put("maestria", 7);
 
-        exito = true;
+            coleccionGuardar.insertOne(objetoGuardar);
+
+            exito = true;
+
+        } catch (Exception e) {
+            // TODO mejor explicado
+            LOG.log(Level.WARNING, "Excepcion Al Insertar Razón: {0}", e.getMessage());
+            exito = false;
+        }
 
         return exito;
 
@@ -92,30 +101,30 @@ public final class Conector {
 
         try {
 
-            DB db = mongoClient.getDB(BASEDATOS_NOMBRE);
-            System.out.println("Connect to database successfully");
+            // To connect to mongodb server
+            try (MongoClient mongoClient = new MongoClient("localhost", 27017)) {
 
-            DBCollection coll = db.getCollection("mycol");
-            System.out.println("Collection mycol selected successfully");
+                // Now connect to your databases
+                DB db = mongoClient.getDB(BASEDATOS_NOMBRE);
+                System.out.println("Connect to database successfully");
 
-            try (DBCursor cursor = coll.find()) {
-                int i = 1;
+                DBCollection coll = db.getCollection("mycol");
+                System.out.println("Collection mycol selected successfully");
 
-                while (cursor.hasNext()) {
-                    System.out.println("Inserted Document: " + i);
-                    System.out.println(cursor.next());
-                    i++;
+                try (DBCursor cursor = coll.find()) {
+                    int i = 1;
+                    
+                    while (cursor.hasNext()) {
+                        System.out.println("Inserted Document: " + i);
+                        System.out.println(cursor.next());
+                        i++;
+                    }
                 }
             }
 
         } catch (Exception e) {
             System.out.println(e.getClass().getName() + ": " + e.getMessage());
         }
-    }
-
-    public void cerrarConexiones() {
-        mongoClient.close();
-        
     }
 
 // ----------------------- Metodos Pregunta StackOverflow -----------------------
@@ -173,5 +182,4 @@ public final class Conector {
             System.exit(1);
         }
     }
-
 }

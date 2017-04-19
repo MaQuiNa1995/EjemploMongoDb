@@ -18,7 +18,7 @@ public class Main {
 //        conector.buscarCrearColeccion("mycol");
 //        conector.guardarObjetoPredefinido("mycol");
         conector.verColeccionDeprecado();
-        conector.cerrarConexiones();
+//        conector.cerrarConexiones();
     }
 
 }
