@@ -5,14 +5,10 @@
  */
 package es.cic.cmunoz.mongodbmascota;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bson.Document;
@@ -34,8 +30,6 @@ public final class Conector {
     // TODO JAVADOC
     public Conector() {
         super();
-//        conectarBaseDatosConAutentificacion();
-//        crearColeccion("tropas");
     }
 
     // TODO JAVADOC
@@ -48,29 +42,32 @@ public final class Conector {
         }
     }
 
-    public MongoDatabase conexionBaseDatos(MongoClient cliente) {
+    private MongoDatabase conexionBaseDatos(MongoClient cliente) {
         return cliente.getDatabase(BASEDATOS_NOMBRE);
     }
 
     // TODO JAVADOC y quitar deprecados
-    public MongoCollection<Document> buscarColeccion(String nombreColeccion) {
+    public MongoCollection<Document> buscarCrearColeccion(String nombreColeccion) {
 
         MongoDatabase baseDatos = prepararCliente();
         LOG.info("Conexión Exitosa A La Base De Datos");
 
         LOG.log(Level.INFO, "Creando La Coleccion {0} Si No Existia", nombreColeccion);
 
-        return baseDatos.getCollection(nombreColeccion);
+        MongoCollection<Document> coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
+
+        return coleccionEncontrada;
 
     }
 
     // TODO JAVADOC y quitar deprecado
-    public void guardarObjetoDefault(String nombreBaseDatos, String nombreColeccion) {
+    public boolean guardarObjetoPredefinido(String nombreColeccion) {
+        
+        boolean exito=false;
+        
         try {
-
-            MongoDatabase baseDatos = prepararCliente();
-
-            MongoCollection<Document> coleccionGuardar = baseDatos.getCollection(nombreColeccion);
+            
+            MongoCollection<Document> coleccionGuardar = buscarCrearColeccion(nombreColeccion);
 
             Document objetoGuardar = new Document();
             objetoGuardar.put("nombre", "Janna");
@@ -79,10 +76,14 @@ public final class Conector {
 
             coleccionGuardar.insertOne(objetoGuardar);
 
+            exito = true;
+            
         } catch (Exception e) {
             // TODO mejor explicado
             LOG.log(Level.WARNING, "Excepcion Al Insertar Razón: {0}", e.getMessage());
             System.exit(1);
+        } finally {
+            return exito;
         }
     }
 
