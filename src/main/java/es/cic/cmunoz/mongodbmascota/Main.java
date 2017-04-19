@@ -14,6 +14,11 @@ public class Main {
 
     public static void main(String[] args) {
         Conector conector = new Conector();
+        conector.prepararCliente();
+//        conector.buscarCrearColeccion("mycol");
+//        conector.guardarObjetoPredefinido("mycol");
+        conector.verColeccionDeprecado();
+        conector.cerrarConexiones();
     }
 
 }

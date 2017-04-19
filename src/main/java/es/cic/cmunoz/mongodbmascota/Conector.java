@@ -6,6 +6,8 @@
 package es.cic.cmunoz.mongodbmascota;
 
 import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -19,12 +21,15 @@ import org.bson.Document;
  */
 public final class Conector {
 
+    private MongoClient mongoClient;
+    private MongoDatabase mongoDataBase;
+
     private static final Logger LOG = Logger.getLogger(Conector.class.getName());
 
     private static final String URLBBDD = "localhost";
     private static final int PUERTOBBDD = 27017;
-//    private static final String USUARIO = "usuario";
-//    private static final String CONTRASENNA = "contrasenna";
+    private static final String USUARIO = "usuario";
+    private static final String CONTRASENNA = "contrasenna";
     private static final String BASEDATOS_NOMBRE = "PRUEBA";
 
     // TODO JAVADOC
@@ -33,13 +38,15 @@ public final class Conector {
     }
 
     // TODO JAVADOC
-    public MongoDatabase prepararCliente() {
+    public void prepararCliente() {
+
         LOG.info("Intentando conectar a base de datos...");
-        try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
-            MongoDatabase conexion = conexionBaseDatos(mongoClient);
-            LOG.log(Level.INFO, "Conexion con la base de datos exitosa");
-            return conexion;
-        }
+        mongoClient = new MongoClient(URLBBDD, PUERTOBBDD);
+
+        mongoDataBase = conexionBaseDatos(mongoClient);
+        
+        LOG.log(Level.INFO, "Conexion con la base de datos exitosa");
+
     }
 
     private MongoDatabase conexionBaseDatos(MongoClient cliente) {
@@ -49,12 +56,11 @@ public final class Conector {
     // TODO JAVADOC y quitar deprecados
     public MongoCollection<Document> buscarCrearColeccion(String nombreColeccion) {
 
-        MongoDatabase baseDatos = prepararCliente();
         LOG.info("Conexión Exitosa A La Base De Datos");
 
         LOG.log(Level.INFO, "Creando La Coleccion {0} Si No Existia", nombreColeccion);
 
-        MongoCollection<Document> coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
+        MongoCollection<Document> coleccionEncontrada = mongoDataBase.getCollection(nombreColeccion);
 
         return coleccionEncontrada;
 
@@ -62,37 +68,63 @@ public final class Conector {
 
     // TODO JAVADOC y quitar deprecado
     public boolean guardarObjetoPredefinido(String nombreColeccion) {
-        
-        boolean exito=false;
-        
+
+        boolean exito = false;
+
+        MongoCollection<Document> coleccionGuardar;
+        coleccionGuardar = mongoDataBase.getCollection(nombreColeccion);
+
+        Document objetoGuardar = new Document();
+        objetoGuardar.put("nombre", "Nautilus");
+        objetoGuardar.put("rol", "Tanque");
+        objetoGuardar.put("maestria", 6);
+
+        coleccionGuardar.insertOne(objetoGuardar);
+
+        exito = true;
+
+        return exito;
+
+    }
+
+    @Deprecated
+    public void verColeccionDeprecado() {
+
         try {
-            
-            MongoCollection<Document> coleccionGuardar = buscarCrearColeccion(nombreColeccion);
 
-            Document objetoGuardar = new Document();
-            objetoGuardar.put("nombre", "Janna");
-            objetoGuardar.put("rol", "Apoyo");
-            objetoGuardar.put("maestria", 7);
+            DB db = mongoClient.getDB(BASEDATOS_NOMBRE);
+            System.out.println("Connect to database successfully");
 
-            coleccionGuardar.insertOne(objetoGuardar);
+            DBCollection coll = db.getCollection("mycol");
+            System.out.println("Collection mycol selected successfully");
 
-            exito = true;
-            
+            try (DBCursor cursor = coll.find()) {
+                int i = 1;
+
+                while (cursor.hasNext()) {
+                    System.out.println("Inserted Document: " + i);
+                    System.out.println(cursor.next());
+                    i++;
+                }
+            }
+
         } catch (Exception e) {
-            // TODO mejor explicado
-            LOG.log(Level.WARNING, "Excepcion Al Insertar Razón: {0}", e.getMessage());
-            System.exit(1);
-        } finally {
-            return exito;
+            System.out.println(e.getClass().getName() + ": " + e.getMessage());
         }
     }
 
-    // ----------------------- Metodos Pregunta StackOverflow -----------------------
-    // https://es.stackoverflow.com/q/63832/32964
+    public void cerrarConexiones() {
+        mongoClient.close();
+        
+    }
+
+// ----------------------- Metodos Pregunta StackOverflow -----------------------
+// https://es.stackoverflow.com/q/63832/32964
     /**
      * Método simple para la conexión de una base de datos. Hace uso de metodos
      * deprecados
      */
+    @Deprecated
     public void conectarBaseDatosDeprecado() {
         try {
 
@@ -141,4 +173,5 @@ public final class Conector {
             System.exit(1);
         }
     }
+
 }
