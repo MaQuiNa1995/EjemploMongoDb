@@ -186,7 +186,7 @@ public final class Conector {
 
         boolean exito = false;
 
-        try {
+//        try {
             /**
              * Creación del objeto donde se guardará las clave/valor que
              * queramos
@@ -206,12 +206,13 @@ public final class Conector {
              * Guardado del objeto en la colección
              */
             coleccionGuardar.insertOne(objetoGuardar);
+            
 
             exito = true;
 
-        } catch (Exception e) {
-            LOG.log(Level.WARNING, "Excepcion Al Insertar El Objeto Predefinido Razón: {0}", e.getMessage());
-        }
+//        } catch (Exception e) {
+//            LOG.log(Level.WARNING,"Excepcion Al Insertar El Objeto Predefinido Razón: {0}", e.getMessage());
+//        }
 
         return exito;
 

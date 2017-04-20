@@ -5,13 +5,9 @@
  */
 package es.cic.cmunoz.mongodbmascota;
 
-import com.mongodb.client.MongoCollection;
+import com.mongodb.DB;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -32,9 +28,6 @@ public class ConectorTest {
         sut = new Conector();
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
     @Test
     public void prepararClienteTest() {
 
@@ -42,19 +35,19 @@ public class ConectorTest {
 
         assertNotNull(baseDeDatos);
     }
-
     @Test
-    public void buscarCrearColeccionTest() {
+    public void prepararClienteDeprecadoTest() {
 
-        MongoCollection<Document> coleccionDevuelta=null;
-//        coleccionDevuelta = sut.buscarCrearColeccion("coleccionNueva");
+        @SuppressWarnings("deprecation")
+        DB baseDeDatos = sut.prepararClienteDeprecado();
 
-        assertNotNull(coleccionDevuelta);
+        assertNotNull(baseDeDatos);
     }
-
+    
     @Test
     public void guardarObjetoPredefinidoTest() {
-        sut.guardarObjetoPredefinido("coleccionNueva");
+        boolean exito = sut.guardarObjetoPredefinido("coleccionTest");
+        assertTrue(exito);
     }
 
 //    @Test
