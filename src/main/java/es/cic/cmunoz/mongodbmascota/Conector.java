@@ -5,6 +5,7 @@
  */
 package es.cic.cmunoz.mongodbmascota;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -209,6 +210,25 @@ public final class Conector {
         } catch (Exception e) {
             System.out.println(e.getClass().getName() + ": " + e.getMessage());
         }
+    }
+    
+    @Deprecated
+    public void updateRegistro(String coleccion,String buscarClave, String buscarValor, String claveNueva, String valorNuevo) {
+        
+        DB baseDatos =  prepararClienteDeprecado();
+        
+        DBCollection coleccionEncontrada = baseDatos.getCollection(coleccion);
+ 
+        //Prepara para insertar un nuevo campo
+        BasicDBObject nuevoCampo = new BasicDBObject();
+        nuevoCampo.append("$set", new BasicDBObject().append(claveNueva, valorNuevo));
+ 
+        //Busca el/los registro/s con el nombre indicado
+        BasicDBObject campoFusionar = new BasicDBObject();
+        campoFusionar.append(buscarClave, buscarValor);
+ 
+        //Realiza la actualización
+        coleccionEncontrada.updateMulti(campoFusionar, nuevoCampo);
     }
 
 // ----------------------- Metodos Pregunta StackOverflow -----------------------
