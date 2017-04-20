@@ -52,22 +52,23 @@ public final class Conector {
         return cliente.getDatabase(BASEDATOS_NOMBRE);
     }
 
-@Deprecated    
-    public void prepararClienteDeprecado() {
+    @Deprecated
+    public DB prepararClienteDeprecado() {
 
         LOG.info("Intentando conectar a base de datos...");
         try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
 
-            MongoDatabase conexion = conexionBaseDatos(mongoClient);
+            DB conexion = conexionBaseDatosDeprecado(mongoClient);
             LOG.log(Level.INFO, "Conexion con la base de datos exitosa");
 
-//            return conexion;
+            return conexion;
         }
 
     }
-@Deprecated
-    private MongoDatabase conexionBaseDatosDeprecado(MongoClient cliente) {
-        return cliente.getDatabase(BASEDATOS_NOMBRE);
+
+    @Deprecated
+    private DB conexionBaseDatosDeprecado(MongoClient cliente) {
+        return cliente.getDB(BASEDATOS_NOMBRE);
     }
 
     // TODO JAVADOC y quitar deprecados
@@ -111,20 +112,24 @@ public final class Conector {
 
     }
 
+    public boolean borrarAtributo() {
+        boolean exito = false;
+
+        return exito;
+    }
+
     @Deprecated
     public boolean eliminarColeccion(String nombreColeccion) {
-        
+
         boolean exito = false;
+
         try {
-            
-            try (MongoClient mongoClient = new MongoClient("localhost", 27017)) {
 
-                DB baseDatos = mongoClient.getDB(BASEDATOS_NOMBRE);
+            DB baseDatos = prepararClienteDeprecado();
 
-                DBCollection coleccionEncontrada = baseDatos.getCollection("mycol");
+            DBCollection coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
 
-                coleccionEncontrada.drop();
-            }
+            coleccionEncontrada.drop();
 
         } catch (Exception e) {
             System.out.println(e.getClass().getName() + ": " + e.getMessage());
@@ -142,7 +147,7 @@ public final class Conector {
                 System.out.println("Connect to database successfully");
 
                 DBCollection coleccionEncontrada = baseDatos.getCollection("mycol");
-                
+
                 System.out.println("Collection mycol selected successfully");
 
                 try (DBCursor cursor = coleccionEncontrada.find()) {
