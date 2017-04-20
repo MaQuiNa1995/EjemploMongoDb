@@ -238,15 +238,14 @@ public final class Conector {
         coleccionEncontrada.remove(query);
     }
     
-    public void deleteRegistroMayorQueNumero(String coleccion,String claveBuscar,String valorBuscar) {
+    public void deleteRegistroCondicion(String coleccion,String claveBuscar,String valorBuscar,String condicion) {
         
         DB baseDatos =  prepararClienteDeprecado();
         
         DBCollection coleccionEncontrada = baseDatos.getCollection(coleccion);
  
-        //Indica el campo y valor que ha de ser mayor para eliminarlo
         BasicDBObject query = new BasicDBObject();
-        query.put(claveBuscar, new BasicDBObject("$gt", valorBuscar));
+        query.put(claveBuscar, new BasicDBObject(condicion, valorBuscar));
         coleccionEncontrada.remove(query);
     }
 
