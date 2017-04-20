@@ -11,6 +11,9 @@ import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoIterable;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bson.Document;
@@ -112,24 +115,46 @@ public final class Conector {
 
     }
 
-    public boolean borrarAtributo() {
+    public boolean borrarBaseDatos() {
         boolean exito = false;
+
+        try {
+            MongoDatabase a = prepararCliente();
+            a.drop();
+        } catch (Exception e) {
+            // TODO mejor explicado
+            LOG.log(Level.WARNING, "Excepcion Al Insertar Razón: {0}", e.getMessage());
+            exito = false;
+        }
 
         return exito;
     }
 
-    @Deprecated
-    public void verBasesDatos() {
+    public MongoIterable<String> verNombresBasesDatos() {
         try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
-
-            short a = 0;
-            for (String nombreBaseDeDatos : mongoClient.getDatabaseNames()) {
-                System.out.println(a + " - " + nombreBaseDeDatos);
-                a++;
-            }
             
+            MongoIterable<String> listaNombresBaseDatos = mongoClient.listDatabaseNames();
+            
+            return listaNombresBaseDatos;
         }
 
+    }
+    
+    @Deprecated
+    public Set<String> verColeccionesBaseDatos(){
+        
+        DB baseDatos = prepararClienteDeprecado();
+        
+        Set<String>mapaColecciones = baseDatos.getCollectionNames();
+        
+        return mapaColecciones;
+    }
+
+    @Deprecated
+    public boolean actualizarCampo() {
+        boolean exito = false;
+
+        return exito;
     }
 
     @Deprecated
@@ -152,13 +177,13 @@ public final class Conector {
     }
 
     @Deprecated
-    public void verColeccionDeprecado() {
+    public void verColeccionDeprecado(String coleccionBuscar) {
 
         try {
             DB baseDatos = prepararClienteDeprecado();
             System.out.println("Connect to database successfully");
 
-            DBCollection coleccionEncontrada = baseDatos.getCollection("mycol");
+            DBCollection coleccionEncontrada = baseDatos.getCollection(coleccionBuscar);
 
             System.out.println("Collection mycol selected successfully");
 
@@ -189,7 +214,7 @@ public final class Conector {
 
             MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD);
 
-            DB baseDatosDeprecada = mongoClient.getDB("prueba");
+            DB baseDatosDeprecada = mongoClient.getDB(BASEDATOS_NOMBRE);
 
             LOG.log(Level.INFO, "Conectando a Base De Datos: {0}...", baseDatosDeprecada.getName());
 
