@@ -169,6 +169,8 @@ public final class Conector {
          */
         MongoCollection<Document> coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
 
+        
+        
         /**
          * retorno de la coleccion
          */
@@ -186,7 +188,16 @@ public final class Conector {
 
         boolean exito = false;
 
-//        try {
+        try {
+
+            /**
+             * Busqueda de la coleccion donde queremos guardar el objeto
+             * anterior
+             */
+            MongoCollection<Document> coleccionGuardar = buscarColeccion(nombreColeccion);
+            
+            LOG.log(Level.INFO, "Numero de colecciones en el documento: {0}",coleccionGuardar.count());
+            
             /**
              * Creación del objeto donde se guardará las clave/valor que
              * queramos
@@ -197,22 +208,15 @@ public final class Conector {
             objetoGuardar.put("maestria", 7);
 
             /**
-             * Busqueda de la coleccion donde queremos guardar el objeto
-             * anterior
-             */
-            MongoCollection<Document> coleccionGuardar = buscarColeccion(nombreColeccion);
-
-            /**
              * Guardado del objeto en la colección
              */
             coleccionGuardar.insertOne(objetoGuardar);
-            
 
             exito = true;
 
-//        } catch (Exception e) {
-//            LOG.log(Level.WARNING,"Excepcion Al Insertar El Objeto Predefinido Razón: {0}", e.getMessage());
-//        }
+        } catch (Exception e) {
+            LOG.log(Level.WARNING,"Excepcion Al Insertar El Objeto Predefinido Razón: {0}", e.getMessage());
+        }
 
         return exito;
 
@@ -616,7 +620,6 @@ public final class Conector {
                     Level.WARNING, "Excepcion Al Conectarse A La Base De Datos: {0}",
                     e.getMessage()
             );
-            System.exit(1);
         }
     }
 
@@ -642,7 +645,7 @@ public final class Conector {
 //            }
         } catch (Exception e) {
             LOG.log(Level.WARNING, "Excepcion Al Conectarse A La Base De Datos: {0}", e.getMessage());
-            System.exit(1);
+
         }
     }
 }
