@@ -119,6 +119,20 @@ public final class Conector {
     }
 
     @Deprecated
+    public void verBasesDatos() {
+        try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
+
+            short a = 0;
+            for (String nombreBaseDeDatos : mongoClient.getDatabaseNames()) {
+                System.out.println(a + " - " + nombreBaseDeDatos);
+                a++;
+            }
+            
+        }
+
+    }
+
+    @Deprecated
     public boolean eliminarColeccion(String nombreColeccion) {
 
         boolean exito = false;
@@ -141,23 +155,20 @@ public final class Conector {
     public void verColeccionDeprecado() {
 
         try {
-            try (MongoClient mongoClient = new MongoClient("localhost", 27017)) {
+            DB baseDatos = prepararClienteDeprecado();
+            System.out.println("Connect to database successfully");
 
-                DB baseDatos = mongoClient.getDB(BASEDATOS_NOMBRE);
-                System.out.println("Connect to database successfully");
+            DBCollection coleccionEncontrada = baseDatos.getCollection("mycol");
 
-                DBCollection coleccionEncontrada = baseDatos.getCollection("mycol");
+            System.out.println("Collection mycol selected successfully");
 
-                System.out.println("Collection mycol selected successfully");
+            try (DBCursor cursor = coleccionEncontrada.find()) {
+                int i = 1;
 
-                try (DBCursor cursor = coleccionEncontrada.find()) {
-                    int i = 1;
-
-                    while (cursor.hasNext()) {
-                        System.out.println("Inserted Document: " + i);
-                        System.out.println(cursor.next());
-                        i++;
-                    }
+                while (cursor.hasNext()) {
+                    System.out.println("Inserted Document: " + i);
+                    System.out.println(cursor.next());
+                    i++;
                 }
             }
 
