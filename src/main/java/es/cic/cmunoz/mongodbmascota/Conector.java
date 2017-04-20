@@ -151,6 +151,25 @@ public final class Conector {
         return mapaColecciones;
     }
 
+    @Deprecated
+    public boolean limpiarColeccion(String nombreColeccion){
+        boolean exito = false;
+
+        try {
+
+            DB baseDatos = prepararClienteDeprecado();
+
+            DBCollection coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
+
+            coleccionEncontrada.find().remove();
+
+            exito=true;
+        } catch (Exception e) {
+            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return exito;
+        
+    }
 
     @Deprecated
     public boolean eliminarColeccion(String nombreColeccion) {
@@ -165,6 +184,7 @@ public final class Conector {
 
             coleccionEncontrada.drop();
 
+            exito=true;
         } catch (Exception e) {
             System.out.println(e.getClass().getName() + ": " + e.getMessage());
         }
@@ -226,7 +246,7 @@ public final class Conector {
     }
     
         @Deprecated
-    public void deleteRegistro(String coleccion,String claveBuscar, List<String> lista) {
+    public void deleteRegistroContenidoEnLista(String coleccion,String claveBuscar, List<String> lista) {
         
         DB baseDatos =  prepararClienteDeprecado();
         
@@ -238,6 +258,7 @@ public final class Conector {
         coleccionEncontrada.remove(query);
     }
     
+    @Deprecated
     public void deleteRegistroCondicion(String coleccion,String claveBuscar,String valorBuscar,String condicion) {
         
         DB baseDatos =  prepararClienteDeprecado();
