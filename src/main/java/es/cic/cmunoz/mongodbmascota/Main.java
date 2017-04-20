@@ -14,11 +14,10 @@ public class Main {
 
     public static void main(String[] args) {
         Conector conector = new Conector();
-        conector.prepararCliente();
-//        conector.buscarCrearColeccion("mycol");
+//        conector.prepararCliente();
 //        conector.guardarObjetoPredefinido("mycol");
-        conector.verColeccionDeprecado();
-//        conector.cerrarConexiones();
+//        conector.verColeccionDeprecado();
+conector.eliminarColeccion("mycol");
     }
 
 }

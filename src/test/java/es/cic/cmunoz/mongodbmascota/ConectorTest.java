@@ -46,8 +46,8 @@ public class ConectorTest {
     @Test
     public void buscarCrearColeccionTest() {
 
-        MongoCollection<Document> coleccionDevuelta;
-        coleccionDevuelta = sut.buscarCrearColeccion("coleccionNueva");
+        MongoCollection<Document> coleccionDevuelta=null;
+//        coleccionDevuelta = sut.buscarCrearColeccion("coleccionNueva");
 
         assertNotNull(coleccionDevuelta);
     }
