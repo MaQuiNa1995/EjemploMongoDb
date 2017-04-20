@@ -169,8 +169,6 @@ public final class Conector {
          */
         MongoCollection<Document> coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
 
-        
-        
         /**
          * retorno de la coleccion
          */
@@ -191,31 +189,44 @@ public final class Conector {
         try {
 
             /**
-             * Busqueda de la coleccion donde queremos guardar el objeto
-             * anterior
+             * Creacion del objeto mongoClient para la puesta a punto de la
+             * conexión con la base de datos
              */
-            MongoCollection<Document> coleccionGuardar = buscarColeccion(nombreColeccion);
-            
-            LOG.log(Level.INFO, "Numero de colecciones en el documento: {0}",coleccionGuardar.count());
-            
-            /**
-             * Creación del objeto donde se guardará las clave/valor que
-             * queramos
-             */
-            Document objetoGuardar = new Document();
-            objetoGuardar.put("nombre", "Janna");
-            objetoGuardar.put("rol", "Apoyo");
-            objetoGuardar.put("maestria", 7);
+            try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
 
-            /**
-             * Guardado del objeto en la colección
-             */
-            coleccionGuardar.insertOne(objetoGuardar);
+                /**
+                 * llamada al metodo conexionBaseDatos(String) para recibir la
+                 * conexión con la base de datos
+                 */
+                MongoDatabase conexion = conexionBaseDatos(mongoClient);
+                LOG.log(Level.INFO, "Conexion con la base de datos exitosa");
 
-            exito = true;
+                /**
+                 * Busqueda de la coleccion donde queremos guardar el objeto
+                 * anterior
+                 */
+                MongoCollection<Document> coleccionGuardar = conexion.getCollection(nombreColeccion);
 
+                LOG.log(Level.INFO, "Numero de colecciones en el documento: {0}", coleccionGuardar.count());
+
+                /**
+                 * Creación del objeto donde se guardará las clave/valor que
+                 * queramos
+                 */
+                Document objetoGuardar = new Document();
+                objetoGuardar.put("nombre", "Janna");
+                objetoGuardar.put("rol", "Apoyo");
+                objetoGuardar.put("maestria", 7);
+
+                /**
+                 * Guardado del objeto en la colección
+                 */
+                coleccionGuardar.insertOne(objetoGuardar);
+
+                exito = true;
+            }
         } catch (Exception e) {
-            LOG.log(Level.WARNING,"Excepcion Al Insertar El Objeto Predefinido Razón: {0}", e.getMessage());
+            LOG.log(Level.WARNING, "Excepcion Al Insertar El Objeto Predefinido Razón: {0}", e.getMessage());
         }
 
         return exito;
