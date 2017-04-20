@@ -132,21 +132,21 @@ public final class Conector {
 
     public MongoIterable<String> verNombresBasesDatos() {
         try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
-            
+
             MongoIterable<String> listaNombresBaseDatos = mongoClient.listDatabaseNames();
-            
+
             return listaNombresBaseDatos;
         }
 
     }
-    
+
     @Deprecated
-    public Set<String> verColeccionesBaseDatos(){
-        
+    public Set<String> verColeccionesBaseDatos() {
+
         DB baseDatos = prepararClienteDeprecado();
-        
-        Set<String>mapaColecciones = baseDatos.getCollectionNames();
-        
+
+        Set<String> mapaColecciones = baseDatos.getCollectionNames();
+
         return mapaColecciones;
     }
 
@@ -174,6 +174,15 @@ public final class Conector {
             System.out.println(e.getClass().getName() + ": " + e.getMessage());
         }
         return exito;
+    }
+
+    @Deprecated
+    public boolean existeColeccion(String coleccionBuscar) {
+
+        DB baseDatos = prepararClienteDeprecado();
+
+        return baseDatos.collectionExists(coleccionBuscar);
+
     }
 
     @Deprecated
