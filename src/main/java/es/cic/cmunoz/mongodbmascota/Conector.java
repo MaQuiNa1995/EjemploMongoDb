@@ -76,7 +76,7 @@ public final class Conector {
     }
 
     // TODO JAVADOC y quitar deprecados
-    private MongoCollection<Document> buscarCrearColeccion(String nombreColeccion) {
+    private MongoCollection<Document> buscarColeccion(String nombreColeccion) {
 
         MongoDatabase baseDatos = prepararCliente();
         LOG.info("Conexión Exitosa A La Base De Datos");
@@ -96,7 +96,7 @@ public final class Conector {
 
         try {
 
-            MongoCollection<Document> coleccionGuardar = buscarCrearColeccion(nombreColeccion);
+            MongoCollection<Document> coleccionGuardar = buscarColeccion(nombreColeccion);
             Document objetoGuardar = new Document();
             objetoGuardar.put("nombre", "Janna");
             objetoGuardar.put("rol", "Apoyo");
@@ -151,12 +151,6 @@ public final class Conector {
         return mapaColecciones;
     }
 
-    @Deprecated
-    public boolean actualizarCampo() {
-        boolean exito = false;
-
-        return exito;
-    }
 
     @Deprecated
     public boolean eliminarColeccion(String nombreColeccion) {
@@ -229,6 +223,31 @@ public final class Conector {
  
         //Realiza la actualización
         coleccionEncontrada.updateMulti(campoFusionar, nuevoCampo);
+    }
+    
+        @Deprecated
+    public void deleteRegistro(String coleccion,String claveBuscar, List<String> lista) {
+        
+        DB baseDatos =  prepararClienteDeprecado();
+        
+        DBCollection coleccionEncontrada = baseDatos.getCollection(coleccion);
+ 
+        BasicDBObject query = new BasicDBObject();
+        query.put(claveBuscar, new BasicDBObject("$in", lista));
+        
+        coleccionEncontrada.remove(query);
+    }
+    
+    public void deleteRegistroMayorQueNumero(String coleccion,String claveBuscar,String valorBuscar) {
+        
+        DB baseDatos =  prepararClienteDeprecado();
+        
+        DBCollection coleccionEncontrada = baseDatos.getCollection(coleccion);
+ 
+        //Indica el campo y valor que ha de ser mayor para eliminarlo
+        BasicDBObject query = new BasicDBObject();
+        query.put(claveBuscar, new BasicDBObject("$gt", valorBuscar));
+        coleccionEncontrada.remove(query);
     }
 
 // ----------------------- Metodos Pregunta StackOverflow -----------------------
