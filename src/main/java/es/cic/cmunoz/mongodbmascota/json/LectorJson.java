@@ -6,9 +6,32 @@
 
 package es.cic.cmunoz.mongodbmascota.json;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import es.cic.cmunoz.mongodbmascota.basedatos.ConectorImpl;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @autor cmunoz
  */
 public class LectorJson {
-    // TODO hacer la clase
+
+    public LectorJson() {
+        super();
+    }
+    
+    public List<String> leerJson(){
+        
+        ConectorImpl conector;
+        conector = new ConectorImpl();
+        
+        
+        
+        return null;
+    }
 }

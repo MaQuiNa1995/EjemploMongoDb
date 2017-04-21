@@ -5,6 +5,11 @@
  */
 package es.cic.cmunoz.mongodbmascota.basedatos;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -14,6 +19,13 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
+import es.cic.cmunoz.mongodbmascota.json.Campeon;
+import es.cic.cmunoz.mongodbmascota.json.Habilidad;
+import es.cic.cmunoz.mongodbmascota.json.Pasiva;
+import es.cic.cmunoz.mongodbmascota.json.Skin;
+import es.cic.cmunoz.mongodbmascota.json.Stats;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -23,10 +35,10 @@ import org.bson.Document;
 
 /**
  *
- * Clase ConectorImpl tiene métodos para conectarse y manipular una base de datos
- hecha en mongoDb con el driver 3.4.2
-
- Fecha 18-abr-2017
+ * Clase ConectorImpl tiene métodos para conectarse y manipular una base de
+ * datos hecha en mongoDb con el driver 3.4.2
+ *
+ * Fecha 18-abr-2017
  *
  */
 public final class ConectorImpl implements Conector {
@@ -628,8 +640,189 @@ public final class ConectorImpl implements Conector {
 
         return exito;
     }
+
+// TODO javadoc
+    public boolean guardarObjetoPorJson() {
+
+        boolean exito = false;
+        final String URLBBDD2="league"; 
+
+        try {
+            
+            // -----------------campeones-------------------
+            String nombreColeccion = "campeones";
+            String archivo = "C:/Users/cmunoz/Desktop/campeones.json";
+
+            JsonParser parser = new JsonParser();
+            
+            
+            try (FileReader fr = new FileReader(archivo)) {
+
+                JsonElement datos = parser.parse(fr);
+
+                final Gson gson = new Gson();
+                Campeon[] heroes = gson.fromJson(datos, Campeon[].class);
+
+                try (MongoClient mongoClient = new MongoClient(URLBBDD2, PUERTOBBDD)) {
+
+                    MongoDatabase conexion;
+                    conexion = conexionBaseDatos(mongoClient);
+
+                    MongoCollection<Document> coleccionGuardar;
+                    coleccionGuardar = conexion.getCollection(nombreColeccion);
+
+                    for (Campeon hero : heroes) {
+                        Document objetoGuardar = new Document();
+                        objetoGuardar.put("IdCampeon", hero.getId());
+                        objetoGuardar.put("Mote", hero.getMote());
+                        objetoGuardar.put("Nombre", hero.getNombre());
+                        objetoGuardar.put("Rol", hero.getRol());
+                        objetoGuardar.put("Lore", hero.getLore());
+                        objetoGuardar.put("Coste", hero.getCoste());
+                        coleccionGuardar.insertOne(objetoGuardar);
+                    }
+                }
+            }
+
+            String archivo2 = "C:/Users/cmunoz/Desktop/habilidades.json";
+            nombreColeccion = "habilidades";
+            // -----------------habilidades----------------
+            try (FileReader fr = new FileReader(archivo2)) {
+
+                JsonElement datos = parser.parse(fr);
+
+                final Gson gson = new Gson();
+                Habilidad[] heroes = gson.fromJson(datos, Habilidad[].class);
+
+                try (MongoClient mongoClient = new MongoClient(URLBBDD2, PUERTOBBDD)) {
+
+                    MongoDatabase conexion;
+                    conexion = conexionBaseDatos(mongoClient);
+
+                    MongoCollection<Document> coleccionGuardar;
+                    coleccionGuardar = conexion.getCollection(nombreColeccion);
+
+                    for (Habilidad hero : heroes) {
+                        Document objetoGuardar = new Document();
+                        objetoGuardar.put("Nombre", hero.getNombre());
+                        objetoGuardar.put("Descripcioncorta", hero.getDescripcioncorta());
+                        objetoGuardar.put("Descripcionlarga", hero.getDescripcionlarga());
+                        objetoGuardar.put("Tecla", hero.getTecla());
+                        objetoGuardar.put("Coste", hero.getCoste());
+                        objetoGuardar.put("Enfriamiento", hero.getEnfriamiento());
+                        objetoGuardar.put("IdCampeon", hero.getA_campeon());
+                        coleccionGuardar.insertOne(objetoGuardar);
+                    }
+                }
+            }
+
+            //pasivas
+            String archivo3 = "C:/Users/cmunoz/Desktop/pasivas.json";
+            nombreColeccion = "pasivas";
+            
+            try (FileReader fr = new FileReader(archivo3)) {
+
+                JsonElement datos = parser.parse(fr);
+
+                final Gson gson = new Gson();
+                Pasiva[] heroes = gson.fromJson(datos, Pasiva[].class);
+
+                try (MongoClient mongoClient = new MongoClient(URLBBDD2, PUERTOBBDD)) {
+
+                    MongoDatabase conexion;
+                    conexion = conexionBaseDatos(mongoClient);
+
+                    MongoCollection<Document> coleccionGuardar;
+                    coleccionGuardar = conexion.getCollection(nombreColeccion);
+
+                    for (Pasiva hero : heroes) {
+                        Document objetoGuardar = new Document();
+                        objetoGuardar.put("IdCampeon", hero.getA_campeon());
+                        objetoGuardar.put("Descripcion", hero.getDescripcion());
+                        objetoGuardar.put("Nombre", hero.getNombre());
+                        coleccionGuardar.insertOne(objetoGuardar);
+                    }
+                }
+            }
+            //Skins
+
+            String archivo4 = "C:/Users/cmunoz/Desktop/skins.json";
+            nombreColeccion = "skins";
+            
+            try (FileReader fr = new FileReader(archivo4)) {
+
+                JsonElement datos = parser.parse(fr);
+
+                final Gson gson = new Gson();
+                Skin[] heroes = gson.fromJson(datos, Skin[].class);
+
+                try (MongoClient mongoClient = new MongoClient(URLBBDD2, PUERTOBBDD)) {
+
+                    MongoDatabase conexion;
+                    conexion = conexionBaseDatos(mongoClient);
+
+                    MongoCollection<Document> coleccionGuardar;
+                    coleccionGuardar = conexion.getCollection(nombreColeccion);
+
+                    for (Skin hero : heroes) {
+                        Document objetoGuardar = new Document();
+                        objetoGuardar.put("IdCampeon", hero.getA_campeon());
+                        objetoGuardar.put("Nombre", hero.getNombre());
+                        objetoGuardar.put("imagen", hero.getImagen());
+                        objetoGuardar.put("costeRP", hero.getCosteRP());
+                        coleccionGuardar.insertOne(objetoGuardar);
+                    }
+                }
+            }
+            // Stats
+            String archivo5 = "C:/Users/cmunoz/Desktop/stats.json";
+            nombreColeccion = "stats";
+            
+            try (FileReader fr = new FileReader(archivo5)) {
+
+                JsonElement datos = parser.parse(fr);
+
+                final Gson gson = new Gson();
+                Stats[] heroes = gson.fromJson(datos, Stats[].class);
+
+                try (MongoClient mongoClient = new MongoClient(URLBBDD2, PUERTOBBDD)) {
+
+                    MongoDatabase conexion;
+                    conexion = conexionBaseDatos(mongoClient);
+
+                    MongoCollection<Document> coleccionGuardar;
+                    coleccionGuardar = conexion.getCollection(nombreColeccion);
+
+                    for (Stats hero : heroes) {
+                        Document objetoGuardar = new Document();
+                        objetoGuardar.put("IdCampeon", hero.getA_campeon());
+                        objetoGuardar.put("Vida", hero.getVida());
+                        objetoGuardar.put("Regvida", hero.getRegvida());
+                        objetoGuardar.put("Mana", hero.getMana());
+                        objetoGuardar.put("Regmana", hero.getRegmana());
+                        objetoGuardar.put("Ataque", hero.getAtaque());
+                        objetoGuardar.put("Veloataque", hero.getVeloataque());
+                        objetoGuardar.put("Armadura", hero.getArmadura());
+                        objetoGuardar.put("Resismagica", hero.getResismagica());
+                        objetoGuardar.put("Velomov", hero.getVelomov());
+                        
+                        coleccionGuardar.insertOne(objetoGuardar);
+                    }
+                }
+            }
+            
+            exito=true;
+
+        } catch (IOException | JsonIOException | JsonSyntaxException e) {
+            //TODO explicar excepcion
+        }
+
+        return exito;
+
+    }
+
 //
-//// ----------------------- Metodos Pregunta StackOverflow -----------------------
+//// -------------------------------------------------------- Metodos Pregunta StackOverflow ---------------------------------------------------
 //// https://es.stackoverflow.com/q/63832/32964
 //    /**
 //     * Método simple para la conexión de una base de datos. Hace uso de metodos
