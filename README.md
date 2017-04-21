@@ -1,0 +1,2 @@
+# EjemploMongoDb
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8c656034ddfe4462bb007afe1067e82b)](https://www.codacy.com/app/MaQuiNa1995/EjemploMongoDb?utm_source=github.com&utm_medium=referral&utm_content=MaQuiNa1995/EjemploMongoDb&utm_campaign=badger)
