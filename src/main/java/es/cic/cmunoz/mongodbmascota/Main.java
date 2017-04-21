@@ -6,10 +6,6 @@
 
 package es.cic.cmunoz.mongodbmascota;
 
-/**
- * @Autor cmunoz
- * @Fecha 18-abr-2017
- */
 public class Main {
 
     public static void main(String[] args) {
