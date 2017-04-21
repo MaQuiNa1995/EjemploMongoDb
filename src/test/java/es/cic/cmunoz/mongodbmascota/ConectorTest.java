@@ -139,10 +139,10 @@ public class ConectorTest {
         assertTrue(exito);
     }
     
-    @Test
-    public void Test() {
-        
-    }
+//    @Test
+//    public void Test() {
+//        
+//    }
 //    @Test
 //    public void Test() {
 //        
