@@ -119,7 +119,7 @@ public class ConectorTest {
         List<DBObject> listaDatos = sut.verColeccionDeprecado(coleccion);
         
         assertNotNull(listaDatos);
-        assertTrue(!listaDatos.isEmpty());
+        assertFalse(listaDatos.isEmpty());
         
         for (DBObject objetoSacado : listaDatos) {
             assertNotNull(objetoSacado);
