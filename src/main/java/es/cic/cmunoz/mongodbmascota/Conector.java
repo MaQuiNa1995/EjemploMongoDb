@@ -507,7 +507,7 @@ public final class Conector {
                  * Realización de la actualización
                  */
                 coleccionEncontrada.updateMulti(campoFusionar, nuevoCampo);
-                exito=true;
+                exito = true;
             }
         } catch (Exception e) {
 
@@ -535,28 +535,31 @@ public final class Conector {
         boolean exito = false;
 
         try {
-            /**
-             * Preparación del cliente para la manipulación de la base de datos
-             */
-            DB baseDatos = prepararClienteDeprecado();
+            try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
+                /**
+                 * llamada al metodo conexionBaseDatosDeprecado(String) para
+                 * recibir la conexión con la base de datos
+                 */
+                DB baseDatos = conexionBaseDatosDeprecado(mongoClient);
 
-            /**
-             * Busqueda de la coleccion
-             */
-            DBCollection coleccionEncontrada;
-            coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
+                /**
+                 * Busqueda de la coleccion
+                 */
+                DBCollection coleccionEncontrada;
+                coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
 
-            /**
-             * Busca el/los registro/s con la clave y valor indicadas
-             */
-            BasicDBObject query = new BasicDBObject();
-            query.put(claveBuscar, new BasicDBObject("$in", lista));
+                /**
+                 * Busca el/los registro/s con la clave y valor indicadas
+                 */
+                BasicDBObject query = new BasicDBObject();
+                query.put(claveBuscar, new BasicDBObject("$in", lista));
 
-            /**
-             * eliminación del registro que encontró la query anterior
-             */
-            coleccionEncontrada.remove(query);
-            exito=true;
+                /**
+                 * eliminación del registro que encontró la query anterior
+                 */
+                coleccionEncontrada.remove(query);
+                exito = true;
+            }
         } catch (Exception e) {
             LOG.log(Level.WARNING, "Excepcion Al Hacer Remove, Razon: {0}", e.getMessage());
         }
@@ -593,10 +596,10 @@ public final class Conector {
              */
             DBCollection coleccionEncontrada;
             coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
+
             /**
              * Busca el/los registro/s con la clave y valor indicadas
              */
-
             BasicDBObject query = new BasicDBObject();
             query.put(claveBuscar, new BasicDBObject(condicion, valorBuscar));
 

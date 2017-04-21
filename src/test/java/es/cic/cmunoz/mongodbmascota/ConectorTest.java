@@ -8,6 +8,7 @@ package es.cic.cmunoz.mongodbmascota;
 import com.mongodb.DB;
 import com.mongodb.DBObject;
 import com.mongodb.client.MongoDatabase;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.junit.Before;
@@ -75,14 +76,14 @@ public class ConectorTest {
         sut.guardarObjetoPredefinido("coleccionTest");
         @SuppressWarnings("deprecation")
         Set<String> nombreColeccionSacada = sut.verColeccionesBaseDatos();
-        
+
         for (String nombreSacado : nombreColeccionSacada) {
             assertNotNull(nombreSacado);
         }
 
         assertFalse(nombreColeccionSacada.isEmpty());
     }
-    
+
     @Test
     @SuppressWarnings("deprecation")
     public void eliminarColeccionTest() {
@@ -92,10 +93,10 @@ public class ConectorTest {
          */
         sut.guardarObjetoPredefinido("coleccionTestLimpiar");
         boolean exito = sut.eliminarColeccion("coleccionTestLimpiar");
-        
+
         assertTrue(exito);
     }
-    
+
     @Test
     @SuppressWarnings("deprecation")
     public void existeColeccionTest() {
@@ -103,46 +104,64 @@ public class ConectorTest {
          * Lo hago para que no esté vacía por si en la base de datos no hay
          * ningun valor al hacer el test
          */
-        boolean exito=sut.guardarObjetoPredefinido("pruebaUno");
+        boolean exito = sut.guardarObjetoPredefinido("pruebaUno");
         assertTrue(exito);
         boolean existe = sut.existeColeccion("pruebaUno");
         assertTrue(existe);
         existe = sut.eliminarColeccion("pruebaUno");
         assertTrue(existe);
-    } 
-    
+    }
+
     @Test
     @SuppressWarnings("deprecation")
     public void verColeccionDeprecadoTest() {
-        
-        String coleccion="pruebaNueva";
-        
+
+        String coleccion = "pruebaNueva";
+
         sut.guardarObjetoPredefinido(coleccion);
         List<DBObject> listaDatos = sut.verColeccionDeprecado(coleccion);
-        
+
         assertNotNull(listaDatos);
         assertFalse(listaDatos.isEmpty());
-        
+
         for (DBObject objetoSacado : listaDatos) {
             assertNotNull(objetoSacado);
         }
     }
-    
+
     @Test
     public void anadirCampoTest() {
-        String nombreColeccion="pruebaUpdate";
-        
+        String nombreColeccion = "pruebaUpdate";
+
         sut.guardarObjetoPredefinido(nombreColeccion);
-        
+
         @SuppressWarnings("deprecation")
-        boolean exito= sut.anadirCampo(nombreColeccion, "rol", "Apoyo", "Gratis", "Si");
+        boolean exito = sut.anadirCampo(nombreColeccion, "rol", "Apoyo", "Gratis", "Si");
         assertTrue(exito);
     }
-    
-//    @Test
-//    public void Test() {
-//        
-//    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    public void deleteRegistroListaTest() {
+        String nombreColeccion = "pruebaDelete";
+
+        boolean exito = sut.guardarObjetoPredefinido(nombreColeccion);
+        assertTrue(exito);
+        
+        exito = sut.anadirCampo(nombreColeccion, "rol", "Apoyo", "Gratis", "Si");
+        assertTrue(exito);
+        
+        exito = sut.guardarObjetoPredefinido(nombreColeccion);
+        assertTrue(exito);
+        
+        
+       List<String> listaBorrar = new ArrayList<>();
+       listaBorrar.add("Si");
+       listaBorrar.add("Puede");
+        
+        exito = sut.deleteRegistroContenidoEnLista(nombreColeccion, "Gratis", listaBorrar);
+        assertTrue(exito);
+    }
 //    @Test
 //    public void Test() {
 //        
