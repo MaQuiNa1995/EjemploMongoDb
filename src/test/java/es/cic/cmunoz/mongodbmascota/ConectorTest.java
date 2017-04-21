@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
  */
 public class ConectorTest {
 
-    Conector sut;
+    private Conector sut;
 
     public ConectorTest() {
         super();
@@ -80,7 +80,7 @@ public class ConectorTest {
             assertNotNull(nombreSacado);
         }
 
-        assertTrue(!nombreColeccionSacada.isEmpty());
+        assertFalse(nombreColeccionSacada.isEmpty());
     }
     
     @Test
@@ -114,7 +114,9 @@ public class ConectorTest {
     @Test
     @SuppressWarnings("deprecation")
     public void verColeccionDeprecadoTest() {
+        
         String coleccion="pruebaNueva";
+        
         sut.guardarObjetoPredefinido(coleccion);
         List<DBObject> listaDatos = sut.verColeccionDeprecado(coleccion);
         
@@ -125,14 +127,22 @@ public class ConectorTest {
             assertNotNull(objetoSacado);
         }
     }
-//    @Test
-//    public void Test() {
-//        
-//    }
-//    @Test
-//    public void Test() {
-//        
-//    }
+    
+    @Test
+    public void anadirCampoTest() {
+        String nombreColeccion="pruebaUpdate";
+        
+        sut.guardarObjetoPredefinido(nombreColeccion);
+        
+        @SuppressWarnings("deprecation")
+        boolean exito= sut.anadirCampo(nombreColeccion, "rol", "Apoyo", "Gratis", "Si");
+        assertTrue(exito);
+    }
+    
+    @Test
+    public void Test() {
+        
+    }
 //    @Test
 //    public void Test() {
 //        
