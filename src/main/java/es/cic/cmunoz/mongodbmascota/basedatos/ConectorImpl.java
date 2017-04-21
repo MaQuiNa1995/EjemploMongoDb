@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.cic.cmunoz.mongodbmascota;
+package es.cic.cmunoz.mongodbmascota.basedatos;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -23,18 +23,18 @@ import org.bson.Document;
 
 /**
  *
- * Clase Conector tiene métodos para conectarse y manipular una base de datos
- * hecha en mongoDb con el driver 3.4.2
- *
- * Fecha 18-abr-2017
+ * Clase ConectorImpl tiene métodos para conectarse y manipular una base de datos
+ hecha en mongoDb con el driver 3.4.2
+
+ Fecha 18-abr-2017
  *
  */
-public final class Conector {
+public final class ConectorImpl implements Conector {
 
     /**
      * Logger generico de la clase
      */
-    private static final Logger LOG = Logger.getLogger(Conector.class.getName());
+    private static final Logger LOG = Logger.getLogger(ConectorImpl.class.getName());
 
     /**
      * Constantes de la clase: URLBBDD: Direccion Base De Datos PUERTOBBDD:
@@ -49,7 +49,7 @@ public final class Conector {
     /**
      * Constructor genérico de clase
      */
-    public Conector() {
+    public ConectorImpl() {
         super();
     }
 
@@ -59,6 +59,7 @@ public final class Conector {
      *
      * @return conexion - objeto que contiene la conexión a la base de datos
      */
+    @Override
     public MongoDatabase prepararCliente() {
 
         LOG.log(Level.FINE, "Preparando cliente para la conexión a la base de datos");
@@ -106,6 +107,7 @@ public final class Conector {
      * @deprecated
      */
     @Deprecated
+    @Override
     public DB prepararClienteDeprecado() {
 
         LOG.log(Level.FINE, "Preparando cliente deprecado para la conexión a la base de datos");
@@ -153,6 +155,7 @@ public final class Conector {
      * @param nombreColeccion String que contiene el nombre de la colección
      * @return exito - Variable de control para indicar el exito de la operación
      */
+    @Override
     public boolean guardarObjetoPredefinido(String nombreColeccion) {
 
         boolean exito = false;
@@ -211,6 +214,7 @@ public final class Conector {
      *
      * @return exito - Variable de control para indicar el exito de la operación
      */
+    @Override
     public boolean borrarBaseDatos() {
         boolean exito = false;
 
@@ -239,6 +243,7 @@ public final class Conector {
      * @return listaNombresBaseDatos - lista de los nombres de las bases de
      * datos
      */
+    @Override
     public List<String> verNombresBasesDatos() {
 
         List<String> listaConvertida;
@@ -282,6 +287,7 @@ public final class Conector {
      * @deprecated
      */
     @Deprecated
+    @Override
     public Set<String> verColeccionesBaseDatos() {
 
         /**
@@ -316,6 +322,7 @@ public final class Conector {
      * @deprecated
      */
     @Deprecated
+    @Override
     public boolean eliminarColeccion(String nombreColeccion) {
         boolean exito = false;
         /**
@@ -358,6 +365,7 @@ public final class Conector {
      * @deprecated
      */
     @Deprecated
+    @Override
     public boolean existeColeccion(String coleccionBuscar) {
 
         boolean exito = false;
@@ -402,6 +410,7 @@ public final class Conector {
      * @deprecated
      */
     @Deprecated
+    @Override
     public List<DBObject> verColeccionDeprecado(String coleccionBuscar) {
         List<DBObject> listaInfoColeccion = null;
 
@@ -468,6 +477,7 @@ public final class Conector {
      * @deprecated
      */
     @Deprecated
+    @Override
     public boolean anadirCampo(String nombreColeccion, String buscarClave,
             String buscarValor, String claveNueva, String valorNuevo) {
 
@@ -529,6 +539,7 @@ public final class Conector {
      * @deprecated
      */
     @Deprecated
+    @Override
     public boolean deleteRegistroContenidoEnLista(String nombreColeccion,
             String claveBuscar, List<String> lista) {
 
@@ -579,6 +590,7 @@ public final class Conector {
      * @deprecated
      */
     @Deprecated
+    @Override
     public boolean deleteRegistroCondicion(String nombreColeccion, String claveBuscar,
             String valorBuscar, String condicion) {
 

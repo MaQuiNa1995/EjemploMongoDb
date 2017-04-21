@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.cic.cmunoz.mongodbmascota;
+package es.cic.cmunoz.mongodbmascota.basedatos;
 
+import es.cic.cmunoz.mongodbmascota.basedatos.ConectorImpl;
 import com.mongodb.DB;
 import com.mongodb.DBObject;
 import com.mongodb.client.MongoDatabase;
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
  */
 public class ConectorTest {
 
-    private Conector sut;
+    private ConectorImpl sut;
 
     public ConectorTest() {
         super();
@@ -29,7 +30,7 @@ public class ConectorTest {
 
     @Before
     public void setUp() {
-        sut = new Conector();
+        sut = new ConectorImpl();
     }
 
     @Test
