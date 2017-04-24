@@ -13,21 +13,33 @@ import static org.junit.Assert.*;
 
 /**
  * @autor cmunoz
- * @version 2.0
+ * @version 1.1.1
  */
 public class ConectorTest {
 
+    /**
+     * Objeto de la clase a probar
+     */
     private ConectorImpl sut;
 
+    /**
+     * Constructor genérico
+     */
     public ConectorTest() {
         super();
     }
 
+    /**
+     * Método que se inicia cada vez que hacemos un test
+     */
     @Before
     public void setUp() {
         sut = new ConectorImpl();
     }
 
+    /**
+     * Testeo del metodo prepararClienteTest
+     */
     @Test
     public void prepararClienteTest() {
 
@@ -36,6 +48,9 @@ public class ConectorTest {
         assertNotNull(baseDeDatos);
     }
 
+    /**
+     * Testeo del metodo prepararClienteDeprecado
+     */
     @Test
     public void prepararClienteDeprecadoTest() {
 
@@ -45,12 +60,18 @@ public class ConectorTest {
         assertNotNull(baseDeDatos);
     }
 
+    /**
+     * Testeo del metodo guardarObjetoPredefinido
+     */
     @Test
     public void guardarObjetoPredefinidoTest() {
         boolean exito = sut.guardarObjetoPredefinido("coleccionTest");
         assertTrue(exito);
     }
 
+    /**
+     * Testeo del metodo verNombresBasesDatos
+     */
     @Test
     public void verNombresbasesDatosTest() {
 
@@ -63,6 +84,9 @@ public class ConectorTest {
         assertTrue(0 < contador);
     }
 
+    /**
+     * Testeo del metodo guardarObjetoPredefinido
+     */
     @Test
     public void verColeccionesBaseDatosTest() {
         /**
@@ -80,6 +104,9 @@ public class ConectorTest {
         assertFalse(nombreColeccionSacada.isEmpty());
     }
 
+    /**
+     * Testeo del metodo eliminarColeccion
+     */
     @Test
     @SuppressWarnings("deprecation")
     public void eliminarColeccionTest() {
@@ -93,6 +120,9 @@ public class ConectorTest {
         assertTrue(exito);
     }
 
+    /**
+     * Testeo del metodo existeColeccion
+     */
     @Test
     @SuppressWarnings("deprecation")
     public void existeColeccionTest() {
@@ -106,8 +136,13 @@ public class ConectorTest {
         assertTrue(existe);
         existe = sut.eliminarColeccion("pruebaUno");
         assertTrue(existe);
+        existe = sut.existeColeccion("pruebaUno");
+        assertFalse(existe);
     }
 
+    /**
+     * Testeo del metodo verColeccionDeprecado
+     */
     @Test
     @SuppressWarnings("deprecation")
     public void verColeccionDeprecadoTest() {
@@ -125,6 +160,9 @@ public class ConectorTest {
         }
     }
 
+    /**
+     * Testeo del metodo anadirCampo
+     */
     @Test
     public void anadirCampoTest() {
         String nombreColeccion = "pruebaUpdate";
@@ -136,6 +174,9 @@ public class ConectorTest {
         assertTrue(exito);
     }
 
+    /**
+     * Testeo del metodo deleteRegistroContenidoEnLista
+     */
     @Test
     @SuppressWarnings("deprecation")
     public void deleteRegistroListaTest() {
@@ -143,27 +184,29 @@ public class ConectorTest {
 
         boolean exito = sut.guardarObjetoPredefinido(nombreColeccion);
         assertTrue(exito);
-        
+
         exito = sut.anadirCampo(nombreColeccion, "rol", "Apoyo", "Gratis", "Si");
         assertTrue(exito);
-        
+
         exito = sut.guardarObjetoPredefinido(nombreColeccion);
         assertTrue(exito);
-        
-        
-       List<String> listaBorrar = new ArrayList<>();
-       listaBorrar.add("Si");
-       listaBorrar.add("Puede");
-        
+
+        List<String> listaBorrar = new ArrayList<>();
+        listaBorrar.add("Si");
+        listaBorrar.add("Puede");
+
         exito = sut.deleteRegistroContenidoEnLista(nombreColeccion, "Gratis", listaBorrar);
         assertTrue(exito);
     }
-    
+
+    /**
+     * Testeo del metodo guardarJson
+     */
     @Test
-    public void guardarJsonTest() throws IOException {
-        
-            boolean exito =sut.guardarJson();
-            assertTrue(exito);
+    public void guardarJsonTest() {
+
+        boolean exito = sut.guardarJson();
+        assertTrue(exito);
     }
 
 }
