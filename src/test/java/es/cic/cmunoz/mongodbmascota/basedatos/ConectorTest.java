@@ -9,6 +9,7 @@ import es.cic.cmunoz.mongodbmascota.basedatos.ConectorImpl;
 import com.mongodb.DB;
 import com.mongodb.DBObject;
 import com.mongodb.client.MongoDatabase;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -167,7 +168,7 @@ public class ConectorTest {
 //    }
     
     @Test
-    public void Test() {
+    public void Test() throws IOException {
         
             boolean exito =sut.guardarObjetoPorJson();
             assertTrue(exito);
