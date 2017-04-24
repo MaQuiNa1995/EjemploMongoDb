@@ -654,7 +654,7 @@ public final class ConectorImpl implements Conector {
         try {
 
             /**
-             * Campeones
+             * -----------------Campeones----------------
              *
              * Seteo de variables que usaremos
              */
@@ -727,7 +727,7 @@ public final class ConectorImpl implements Conector {
             String archivo2 = "C:/Users/cmunoz/Desktop/habilidades.json";
             NOMBRECOLECCION = "habilidades";
             /**
-             * -----------------habilidades----------------
+             * -----------------Habilidades----------------
              */
             try (FileReader fr = new FileReader(archivo2)) {
 
