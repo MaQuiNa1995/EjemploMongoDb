@@ -32,7 +32,9 @@ import org.bson.Document;
  * Clase ConectorImpl tiene métodos para conectarse y manipular una base de
  * datos hecha en mongoDb con el driver 3.4.2
  *
- * <p>Fecha 18-abr-2017<p>
+ * <p>
+ * Fecha 18-abr-2017
+ * <p>
  *
  * @autor cmunoz
  * @version 1.0
@@ -636,35 +638,80 @@ public final class ConectorImpl implements Conector {
         return exito;
     }
 
-// TODO javadoc
-    public boolean guardarJson(){
+    /**
+     * Metodo usado para la lectura de un archivo Json y la inserccion de los
+     * valores leidos en la base de datos
+     *
+     * @return exito - Variable de control para indicar el exito de la operación
+     */
+    public boolean guardarJson() {
 
+        /**
+         * Variable para indicar el éxito de la operación
+         */
         boolean exito = false;
 
         try {
 
-            // -----------------campeones-------------------
-            String nombreColeccion = "campeones";
-            String archivo = "C:/Users/cmunoz/Desktop/campeones.json";
+            /**
+             * Campeones
+             *
+             * Seteo de variables que usaremos
+             */
+            String NOMBRECOLECCION = "campeones";
+            String ARCHIVO = "C:/Users/cmunoz/Desktop/campeones.json";
 
+            /**
+             * Objeto para parsear Json
+             */
             JsonParser parser = new JsonParser();
 
-            try (FileReader fr = new FileReader(archivo)) {
+            /**
+             * Try con recursos para el objeto FileReader
+             */
+            try (FileReader fr = new FileReader(ARCHIVO)) {
 
+                /**
+                 * Objeto donde se guardan los datos obtenido del Json
+                 */
                 JsonElement datos = parser.parse(fr);
 
+                /**
+                 * Objeto necesario para el parseo a objeto java
+                 */
                 final Gson gson = new Gson();
-                Campeon[] heroes = gson.fromJson(datos, Campeon[].class);
 
+                /**
+                 * Parseo a objeto java desde json y guardado en un array
+                 */
+                Campeon[] listaCampeones = gson.fromJson(datos, Campeon[].class);
+
+                /**
+                 * Try con recursos para el objeto Mongoclient parala conexion a
+                 * la base de datos
+                 */
                 try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
 
+                    /**
+                     * Conexion a base de datos
+                     */
                     MongoDatabase conexion;
                     conexion = conexionBaseDatos(mongoClient);
 
+                    /**
+                     * Creacion del documento que tendrá la información de los
+                     * objetos para su guardado en base de datos
+                     */
                     MongoCollection<Document> coleccionGuardar;
-                    coleccionGuardar = conexion.getCollection(nombreColeccion);
+                    coleccionGuardar = conexion.getCollection(NOMBRECOLECCION);
 
-                    for (Campeon hero : heroes) {
+                    /**
+                     * Lectura de la lista 
+                     */
+                    for (Campeon hero : listaCampeones) {
+                        /**
+                         * Preparacion de los datos para su guardado en BBDD
+                         */
                         Document objetoGuardar = new Document();
                         objetoGuardar.put("Id Campeon", hero.getId());
                         objetoGuardar.put("Mote", hero.getMote());
@@ -678,8 +725,10 @@ public final class ConectorImpl implements Conector {
             }
 
             String archivo2 = "C:/Users/cmunoz/Desktop/habilidades.json";
-            nombreColeccion = "habilidades";
-            // -----------------habilidades----------------
+            NOMBRECOLECCION = "habilidades";
+            /**
+             * -----------------habilidades----------------
+             */
             try (FileReader fr = new FileReader(archivo2)) {
 
                 JsonElement datos = parser.parse(fr);
@@ -693,7 +742,7 @@ public final class ConectorImpl implements Conector {
                     conexion = conexionBaseDatos(mongoClient);
 
                     MongoCollection<Document> coleccionGuardar;
-                    coleccionGuardar = conexion.getCollection(nombreColeccion);
+                    coleccionGuardar = conexion.getCollection(NOMBRECOLECCION);
 
                     for (Habilidad hero : heroes) {
                         Document objetoGuardar = new Document();
@@ -713,9 +762,11 @@ public final class ConectorImpl implements Conector {
                 }
             }
 
-            //pasivas
+            /**
+             * -----------------Pasivas----------------
+             */
             String archivo3 = "C:/Users/cmunoz/Desktop/pasivas.json";
-            nombreColeccion = "pasivas";
+            NOMBRECOLECCION = "pasivas";
 
             try (FileReader fr = new FileReader(archivo3)) {
 
@@ -730,7 +781,7 @@ public final class ConectorImpl implements Conector {
                     conexion = conexionBaseDatos(mongoClient);
 
                     MongoCollection<Document> coleccionGuardar;
-                    coleccionGuardar = conexion.getCollection(nombreColeccion);
+                    coleccionGuardar = conexion.getCollection(NOMBRECOLECCION);
 
                     for (Pasiva hero : heroes) {
                         Document objetoGuardar = new Document();
@@ -744,10 +795,12 @@ public final class ConectorImpl implements Conector {
                     }
                 }
             }
-            //Skins
+            /**
+             * -----------------Skins----------------
+             */
 
             String archivo4 = "C:/Users/cmunoz/Desktop/skins.json";
-            nombreColeccion = "skins";
+            NOMBRECOLECCION = "skins";
 
             try (FileReader fr = new FileReader(archivo4)) {
 
@@ -762,7 +815,7 @@ public final class ConectorImpl implements Conector {
                     conexion = conexionBaseDatos(mongoClient);
 
                     MongoCollection<Document> coleccionGuardar;
-                    coleccionGuardar = conexion.getCollection(nombreColeccion);
+                    coleccionGuardar = conexion.getCollection(NOMBRECOLECCION);
 
                     for (Skin hero : heroes) {
                         Document objetoGuardar = new Document();
@@ -774,9 +827,11 @@ public final class ConectorImpl implements Conector {
                     }
                 }
             }
-            // Stats
+            /**
+             * -----------------Stats----------------
+             */
             String archivo5 = "C:/Users/cmunoz/Desktop/stats.json";
-            nombreColeccion = "stats";
+            NOMBRECOLECCION = "stats";
 
             try (FileReader fr = new FileReader(archivo5)) {
 
@@ -791,12 +846,12 @@ public final class ConectorImpl implements Conector {
                     conexion = conexionBaseDatos(mongoClient);
 
                     MongoCollection<Document> coleccionGuardar;
-                    coleccionGuardar = conexion.getCollection(nombreColeccion);
+                    coleccionGuardar = conexion.getCollection(NOMBRECOLECCION);
 
                     for (Stats hero : heroes) {
                         Document objetoGuardar = new Document();
                         objetoGuardar.put("Id Campeon", hero.getACampeon());
-                        
+
                         objetoGuardar.put("Vida", hero.getVida());
                         objetoGuardar.put("Regeneracion De Vida", hero.getRegvida());
 
@@ -807,26 +862,32 @@ public final class ConectorImpl implements Conector {
 
                         objetoGuardar.put("Ataque", hero.getAtaque());
                         objetoGuardar.put("Velocidad De Ataque", hero.getVeloataque());
-                        
+
                         objetoGuardar.put("Armadura", hero.getArmadura());
                         objetoGuardar.put("Resistencia Magica", hero.getResismagica());
-                        
+
                         objetoGuardar.put("Velocidad De Movimiento", hero.getVelomov());
 
                         coleccionGuardar.insertOne(objetoGuardar);
                     }
                 }
             }
-
+            /**
+             * ponemos a true para indicar el exito de la operación
+             */
             exito = true;
 
-        } catch (IOException | JsonIOException | JsonSyntaxException e) {
-            //TODO explicar excepcion
-        } catch (Exception a) {
-            // TODO Explicar excepcion
-            // LOG.log(Level.WARNING, "Excepcion Al Hacer Remove, Razon: {0}", e.getMessage());
+            
+        } catch (Exception e) {
+            /**
+             * Captura de excepciones en un log
+             */
+            LOG.log(Level.WARNING, "Excepcion Al Leer Json, Razon: {0}", e.getMessage());
         }
 
+        /**
+         * Retorno de un booleano
+         */
         return exito;
 
     }
