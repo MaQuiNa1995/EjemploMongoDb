@@ -1,7 +1,6 @@
 package es.cic.cmunoz.mongodbmascota.json;
 
 /**
- * @autor cmunoz
  * @version 1.0
  */
 public class Skin {

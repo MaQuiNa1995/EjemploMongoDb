@@ -2,9 +2,7 @@ package es.cic.cmunoz.mongodbmascota.basedatos;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -20,7 +18,6 @@ import es.cic.cmunoz.mongodbmascota.json.Pasiva;
 import es.cic.cmunoz.mongodbmascota.json.Skin;
 import es.cic.cmunoz.mongodbmascota.json.Stats;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +33,6 @@ import org.bson.Document;
  * Fecha 18-abr-2017
  * <p>
  *
- * @autor cmunoz
  * @version 1.0
  */
 public final class ConectorImpl implements Conector {
@@ -112,8 +108,8 @@ public final class ConectorImpl implements Conector {
      * la base de datos
      *
      * @return conexion - objeto que contiene la conexión a la base de datos
-     * @deprecated - No se recomienda el uso de esta funcion ya que usa
-     * elementos deprecados que podrían ser eliminados en un futuro
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     @Override
@@ -148,7 +144,8 @@ public final class ConectorImpl implements Conector {
      * @param cliente es el objeto que lleva la configuración de la base de
      * datos
      * @return conexionBaseDatos - es el objeto usado para retornar la conexión
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     private DB conexionBaseDatosDeprecado(MongoClient cliente) {
@@ -293,7 +290,8 @@ public final class ConectorImpl implements Conector {
      * la base de datos
      *
      * @return mapaColecciones - Set de los nombres de las bases de datos
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     @Override
@@ -328,7 +326,8 @@ public final class ConectorImpl implements Conector {
      *
      * @param nombreColeccion nombre de la coleccion a limpiar
      * @return exito - Variable de control para indicar el exito de la operación
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     @Override
@@ -371,7 +370,8 @@ public final class ConectorImpl implements Conector {
      *
      * @param coleccionBuscar nombre de la coleccion a borrar
      * @return exito - Variable de control para indicar el exito de la operación
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     @Override
@@ -412,16 +412,19 @@ public final class ConectorImpl implements Conector {
     }
 
     /**
-     * Método que imprime en pantalla elcontenido de una colección
+     * Método que imprime en pantalla el contenido de una colección
      *
      * @param coleccionBuscar nombre de la coleccion a consultar
-     * @return
-     * @deprecated
+     * @return listaInfoColeccion - lista que tiene el contenido de una colección
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     @Override
     public List<DBObject> verColeccionDeprecado(String coleccionBuscar) {
         List<DBObject> listaInfoColeccion = null;
+
+        boolean exito = false;
 
         try {
 
@@ -457,15 +460,25 @@ public final class ConectorImpl implements Conector {
                         listaInfoColeccion.add(cursor.next());
                     }
                 }
+                /**
+                 * Seteamos una variable booleana para controlar el exito de la
+                 * operación
+                 */
+                exito = true;
             }
 
         } catch (Exception e) {
-            /**
-             * Si hay excepción limpiamos la lista para que no de falsos
-             * positivos
-             */
-            listaInfoColeccion.clear();
+            exito = false;
             LOG.log(Level.WARNING, "Excepcion Al Recuperar Datos La Coleccion, Razon: {0}", e.getMessage());
+        } finally {
+            /**
+             * Si hay excepción seteamos exito a false y la lista a null para
+             * que no de falsos positivos en otro caso, no hará nada, y
+             * devolverá normalmente la lista con los valores sacados
+             */
+            if (!exito) {
+                listaInfoColeccion = null;
+            }
         }
 
         return listaInfoColeccion;
@@ -483,7 +496,8 @@ public final class ConectorImpl implements Conector {
      * @param claveNueva String que contiene la clave nueva
      * @param valorNuevo String que contiene el valor nuevo
      * @return exito - Variable de control para indicar el exito de la operación
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     @Override
@@ -545,7 +559,8 @@ public final class ConectorImpl implements Conector {
      * @param lista Lista de valores de los cuales queremos borrar todos los que
      * encuentre
      * @return exito - Variable de control para indicar el exito de la operación
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     @Override
@@ -596,7 +611,8 @@ public final class ConectorImpl implements Conector {
      * @param condicion String de la condición son iguales a bash "$gt" (greater
      * than)
      * @return exito - Variable de control para indicar el exito de la operación
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     @Override
@@ -644,6 +660,7 @@ public final class ConectorImpl implements Conector {
      *
      * @return exito - Variable de control para indicar el exito de la operación
      */
+    @Override
     public boolean guardarJson() {
 
         /**
@@ -658,8 +675,8 @@ public final class ConectorImpl implements Conector {
              *
              * Seteo de variables que usaremos
              */
-            String NOMBRECOLECCION = "campeones";
-            String ARCHIVO = "C:/Users/cmunoz/Desktop/campeones.json";
+            String nombreColeccion = "campeones";
+            String archivo = "C:/Users/cmunoz/Desktop/campeones.json";
 
             /**
              * Objeto para parsear Json
@@ -669,7 +686,7 @@ public final class ConectorImpl implements Conector {
             /**
              * Try con recursos para el objeto FileReader
              */
-            try (FileReader fr = new FileReader(ARCHIVO)) {
+            try (FileReader fr = new FileReader(archivo)) {
 
                 /**
                  * Objeto donde se guardan los datos obtenido del Json
@@ -703,10 +720,10 @@ public final class ConectorImpl implements Conector {
                      * objetos para su guardado en base de datos
                      */
                     MongoCollection<Document> coleccionGuardar;
-                    coleccionGuardar = conexion.getCollection(NOMBRECOLECCION);
+                    coleccionGuardar = conexion.getCollection(nombreColeccion);
 
                     /**
-                     * Lectura de la lista 
+                     * Lectura de la lista
                      */
                     for (Campeon hero : listaCampeones) {
                         /**
@@ -725,7 +742,7 @@ public final class ConectorImpl implements Conector {
             }
 
             String archivo2 = "C:/Users/cmunoz/Desktop/habilidades.json";
-            NOMBRECOLECCION = "habilidades";
+            nombreColeccion = "habilidades";
             /**
              * -----------------Habilidades----------------
              */
@@ -742,7 +759,7 @@ public final class ConectorImpl implements Conector {
                     conexion = conexionBaseDatos(mongoClient);
 
                     MongoCollection<Document> coleccionGuardar;
-                    coleccionGuardar = conexion.getCollection(NOMBRECOLECCION);
+                    coleccionGuardar = conexion.getCollection(nombreColeccion);
 
                     for (Habilidad hero : heroes) {
                         Document objetoGuardar = new Document();
@@ -766,7 +783,7 @@ public final class ConectorImpl implements Conector {
              * -----------------Pasivas----------------
              */
             String archivo3 = "C:/Users/cmunoz/Desktop/pasivas.json";
-            NOMBRECOLECCION = "pasivas";
+            nombreColeccion = "pasivas";
 
             try (FileReader fr = new FileReader(archivo3)) {
 
@@ -781,7 +798,7 @@ public final class ConectorImpl implements Conector {
                     conexion = conexionBaseDatos(mongoClient);
 
                     MongoCollection<Document> coleccionGuardar;
-                    coleccionGuardar = conexion.getCollection(NOMBRECOLECCION);
+                    coleccionGuardar = conexion.getCollection(nombreColeccion);
 
                     for (Pasiva hero : heroes) {
                         Document objetoGuardar = new Document();
@@ -800,7 +817,7 @@ public final class ConectorImpl implements Conector {
              */
 
             String archivo4 = "C:/Users/cmunoz/Desktop/skins.json";
-            NOMBRECOLECCION = "skins";
+            nombreColeccion = "skins";
 
             try (FileReader fr = new FileReader(archivo4)) {
 
@@ -815,14 +832,16 @@ public final class ConectorImpl implements Conector {
                     conexion = conexionBaseDatos(mongoClient);
 
                     MongoCollection<Document> coleccionGuardar;
-                    coleccionGuardar = conexion.getCollection(NOMBRECOLECCION);
+                    coleccionGuardar = conexion.getCollection(nombreColeccion);
 
                     for (Skin hero : heroes) {
                         Document objetoGuardar = new Document();
                         objetoGuardar.put("Id Campeon", hero.getACampeon());
                         objetoGuardar.put("Nombre", hero.getNombre());
                         objetoGuardar.put("Imagen", hero.getImagen());
-                        objetoGuardar.put("Coste RP", hero.getCosteRP());
+                        if (hero.getCosteRP() != 0) {
+                            objetoGuardar.put("Coste RP", hero.getCosteRP());
+                        }
                         coleccionGuardar.insertOne(objetoGuardar);
                     }
                 }
@@ -831,7 +850,7 @@ public final class ConectorImpl implements Conector {
              * -----------------Stats----------------
              */
             String archivo5 = "C:/Users/cmunoz/Desktop/stats.json";
-            NOMBRECOLECCION = "stats";
+            nombreColeccion = "stats";
 
             try (FileReader fr = new FileReader(archivo5)) {
 
@@ -846,7 +865,7 @@ public final class ConectorImpl implements Conector {
                     conexion = conexionBaseDatos(mongoClient);
 
                     MongoCollection<Document> coleccionGuardar;
-                    coleccionGuardar = conexion.getCollection(NOMBRECOLECCION);
+                    coleccionGuardar = conexion.getCollection(nombreColeccion);
 
                     for (Stats hero : heroes) {
                         Document objetoGuardar = new Document();
@@ -877,7 +896,6 @@ public final class ConectorImpl implements Conector {
              */
             exito = true;
 
-            
         } catch (Exception e) {
             /**
              * Captura de excepciones en un log

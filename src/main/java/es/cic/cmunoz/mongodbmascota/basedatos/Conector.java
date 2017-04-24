@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @autor cmunoz
  * @version 1.0
  */
 public interface Conector {
@@ -24,8 +23,10 @@ public interface Conector {
      * @param claveNueva String que contiene la clave nueva
      * @param valorNuevo String que contiene el valor nuevo
      * @return exito - Variable de control para indicar el exito de la operación
-     * @deprecated No se recomienda el uso de esta funcion ya que usa
-     * elementos deprecados que podrían ser eliminados en un futuro
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro No se recomienda el
+     * uso de esta funcion ya que usa elementos deprecados que podrían ser
+     * eliminados en un futuro
      */
     @Deprecated
     boolean anadirCampo(String nombreColeccion, String buscarClave, String buscarValor, String claveNueva, String valorNuevo);
@@ -46,7 +47,8 @@ public interface Conector {
      * @param condicion String de la condición son iguales a bash "$gt" (greater
      * than)
      * @return exito - Variable de control para indicar el exito de la operación
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     boolean deleteRegistroCondicion(String nombreColeccion, String claveBuscar, String valorBuscar, String condicion);
@@ -150,7 +152,8 @@ public interface Conector {
      * @param lista Lista de valores de los cuales queremos borrar todos los que
      * encuentre
      * @return exito - Variable de control para indicar el exito de la operación
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     boolean deleteRegistroContenidoEnLista(String nombreColeccion, String claveBuscar, List<String> lista);
@@ -160,7 +163,8 @@ public interface Conector {
      *
      * @param nombreColeccion nombre de la coleccion a limpiar
      * @return exito - Variable de control para indicar el exito de la operación
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     boolean eliminarColeccion(String nombreColeccion);
@@ -170,7 +174,8 @@ public interface Conector {
      *
      * @param coleccionBuscar nombre de la coleccion a borrar
      * @return exito - Variable de control para indicar el exito de la operación
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     boolean existeColeccion(String coleccionBuscar);
@@ -196,7 +201,8 @@ public interface Conector {
      * la base de datos
      *
      * @return conexion - objeto que contiene la conexión a la base de datos
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     DB prepararClienteDeprecado();
@@ -205,8 +211,10 @@ public interface Conector {
      * Método que imprime en pantalla elcontenido de una colección
      *
      * @param coleccionBuscar nombre de la coleccion a consultar
-     * @return
-     * @deprecated
+     * @return listaInfoColeccion - lista que tiene el contenido de una
+     * colección
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     List<DBObject> verColeccionDeprecado(String coleccionBuscar);
@@ -216,7 +224,8 @@ public interface Conector {
      * la base de datos
      *
      * @return mapaColecciones - Set de los nombres de las bases de datos
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
+     * deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     Set<String> verColeccionesBaseDatos();
@@ -229,5 +238,103 @@ public interface Conector {
      * datos
      */
     List<String> verNombresBasesDatos();
+
+    /**
+     * Metodo usado para la lectura de un archivo Json y la inserccion de los
+     * valores leidos en la base de datos
+     *
+     * @return exito - Variable de control para indicar el exito de la operación
+     */
+    boolean guardarJson();
+    //
+    //// -------------------------------------------------------- Metodos Pregunta StackOverflow ---------------------------------------------------
+    //// https://es.stackoverflow.com/q/63832/32964
+    //    /**
+    //     * Método simple para la conexión de una base de datos. Hace uso de metodos
+    //     * deprecados
+    //     */
+    //    @Deprecated
+    //    public void conectarBaseDatosDeprecado() {
+    //        try {
+    //
+    //            MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD);
+    //
+    //            DB baseDatosDeprecada = mongoClient.getDB(BASEDATOS_NOMBRE);
+    //
+    //            LOG.log(
+    //                    Level.INFO, "Conectando a Base De Datos: {0}...",
+    //                    baseDatosDeprecada.getName()
+    //            );
+    //
+    //            // metodo authenticate no existe
+    ////            boolean auth = baseDatosDeprecada.authenticate(USUARIO, CONTRASENNA);
+    ////
+    ////            if (auth) {
+    ////                LOG.log(Level.INFO, "Conexión Exitosa");
+    ////            } else {
+    ////                LOG.log(Level.INFO, "Conexión Fallida");
+    ////            }
+    //        } catch (Exception e) {
+    //            LOG.log(
+    //                    Level.WARNING, "Excepcion Al Conectarse A La Base De Datos: {0}",
+    //                    e.getMessage()
+    //            );
+    //        }
+    //    }
+    //
+    //    /**
+    //     * Método simple para la conexión de una base de datos
+    //     */
+    //    public void conectarBaseDatosConAutentificacion() {
+    //
+    //        try {
+    //
+    //            MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD);
+    //
+    //            MongoDatabase baseDatos = mongoClient.getDatabase("prueba");
+    //
+    //            LOG.log(Level.INFO, "Conectando a Base De Datos: {0}...", baseDatos.getName());
+    //
+    ////            boolean auth = baseDatos.authenticate(USUARIO, CONTRASENNA);
+    ////
+    ////            if (auth) {
+    ////                LOG.log(Level.INFO, "Conexión Exitosa");
+    ////            } else {
+    ////                LOG.log(Level.INFO, "Conexión Fallida");
+    ////            }
+    //        } catch (Exception e) {
+    //            LOG.log(Level.WARNING, "Excepcion Al Conectarse A La Base De Datos: {0}", e.getMessage());
+    //
+    //        }
+    //    }
+    //        /**
+    //     * Metodo usado para la recuperacion de los valores de una coleccion en
+    //     * forma de coleccion
+    //     *
+    //     * @param nombreColeccion String que contiene el nombre de la colección a
+    //     * buscar
+    //     * @return coleccionEncontrada - Collection que contiene la coleccion
+    //     * encontrada
+    //     */
+    //    private MongoCollection<Document> buscarColeccion(String nombreColeccion) {
+    //
+    //        /**
+    //         * Preparación del cliente para la manipulacion de la base de datos
+    //         */
+    //        MongoDatabase baseDatos = prepararCliente();
+    //
+    //        LOG.log(Level.FINE, "Creando La Coleccion {0} Si No Existia", nombreColeccion);
+    //
+    //        /**
+    //         * Guardado de la coleccion en una variable
+    //         */
+    //        MongoCollection<Document> coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
+    //
+    //        /**
+    //         * retorno de la coleccion
+    //         */
+    //        return coleccionEncontrada;
+    //
+    //    }
 
 }

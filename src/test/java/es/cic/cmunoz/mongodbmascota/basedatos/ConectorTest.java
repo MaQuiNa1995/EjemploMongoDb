@@ -3,7 +3,6 @@ package es.cic.cmunoz.mongodbmascota.basedatos;
 import com.mongodb.DB;
 import com.mongodb.DBObject;
 import com.mongodb.client.MongoDatabase;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +11,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * @autor cmunoz
  * @version 1.1.1
  */
 public class ConectorTest {
