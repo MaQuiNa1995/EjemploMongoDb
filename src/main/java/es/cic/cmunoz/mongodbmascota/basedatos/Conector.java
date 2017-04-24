@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.cic.cmunoz.mongodbmascota.basedatos;
 
 import com.mongodb.DB;
@@ -12,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @Autor cmunoz
- * @Fecha 21-abr-2017
+ * @autor cmunoz
+ * @version 1.0
  */
 public interface Conector {
 
@@ -29,7 +24,8 @@ public interface Conector {
      * @param claveNueva String que contiene la clave nueva
      * @param valorNuevo String que contiene el valor nuevo
      * @return exito - Variable de control para indicar el exito de la operación
-     * @deprecated
+     * @deprecated No se recomienda el uso de esta funcion ya que usa
+     * elementos deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     boolean anadirCampo(String nombreColeccion, String buscarClave, String buscarValor, String claveNueva, String valorNuevo);
@@ -233,5 +229,5 @@ public interface Conector {
      * datos
      */
     List<String> verNombresBasesDatos();
-    
+
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.cic.cmunoz.mongodbmascota.basedatos;
 
 import com.google.gson.Gson;
@@ -34,12 +29,13 @@ import java.util.logging.Logger;
 import org.bson.Document;
 
 /**
- *
  * Clase ConectorImpl tiene métodos para conectarse y manipular una base de
  * datos hecha en mongoDb con el driver 3.4.2
  *
- * Fecha 18-abr-2017
+ * <p>Fecha 18-abr-2017<p>
  *
+ * @autor cmunoz
+ * @version 1.0
  */
 public final class ConectorImpl implements Conector {
 
@@ -54,8 +50,6 @@ public final class ConectorImpl implements Conector {
      */
     private static final String URLBBDD = "localhost";
     private static final int PUERTOBBDD = 27017;
-//    private static final String USUARIO = "usuario";
-//    private static final String CONTRASENNA = "contrasenna";
     private static final String BASEDATOS_NOMBRE = "pruebaJson";
 
     /**
@@ -116,7 +110,8 @@ public final class ConectorImpl implements Conector {
      * la base de datos
      *
      * @return conexion - objeto que contiene la conexión a la base de datos
-     * @deprecated
+     * @deprecated - No se recomienda el uso de esta funcion ya que usa
+     * elementos deprecados que podrían ser eliminados en un futuro
      */
     @Deprecated
     @Override
@@ -642,7 +637,7 @@ public final class ConectorImpl implements Conector {
     }
 
 // TODO javadoc
-    public boolean guardarObjetoPorJson() throws IOException {
+    public boolean guardarJson(){
 
         boolean exito = false;
 
@@ -712,7 +707,7 @@ public final class ConectorImpl implements Conector {
                         if (hero.getEnfriamiento() != null) {
                             objetoGuardar.put("Enfriamiento", hero.getEnfriamiento());
                         }
-                        objetoGuardar.put("Id Campeon", hero.getA_campeon());
+                        objetoGuardar.put("Id Campeon", hero.getACampeon());
                         coleccionGuardar.insertOne(objetoGuardar);
                     }
                 }
@@ -739,7 +734,7 @@ public final class ConectorImpl implements Conector {
 
                     for (Pasiva hero : heroes) {
                         Document objetoGuardar = new Document();
-                        objetoGuardar.put("Id Campeon", hero.getA_campeon());
+                        objetoGuardar.put("Id Campeon", hero.getACampeon());
                         objetoGuardar.put("Nombre", hero.getNombre());
                         objetoGuardar.put("Descripcion", hero.getDescripcion());
                         if (hero.getEnfriamiento() != null) {
@@ -771,7 +766,7 @@ public final class ConectorImpl implements Conector {
 
                     for (Skin hero : heroes) {
                         Document objetoGuardar = new Document();
-                        objetoGuardar.put("Id Campeon", hero.getA_campeon());
+                        objetoGuardar.put("Id Campeon", hero.getACampeon());
                         objetoGuardar.put("Nombre", hero.getNombre());
                         objetoGuardar.put("Imagen", hero.getImagen());
                         objetoGuardar.put("Coste RP", hero.getCosteRP());
@@ -800,7 +795,7 @@ public final class ConectorImpl implements Conector {
 
                     for (Stats hero : heroes) {
                         Document objetoGuardar = new Document();
-                        objetoGuardar.put("Id Campeon", hero.getA_campeon());
+                        objetoGuardar.put("Id Campeon", hero.getACampeon());
                         
                         objetoGuardar.put("Vida", hero.getVida());
                         objetoGuardar.put("Regeneracion De Vida", hero.getRegvida());

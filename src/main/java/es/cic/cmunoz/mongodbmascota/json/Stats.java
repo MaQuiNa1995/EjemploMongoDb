@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.cic.cmunoz.mongodbmascota.json;
 
 /**
- * @Autor cmunoz
- * @Fecha 07-dic-2016
+ * @autor cmunoz
+ * @version 1.0
  */
 public class Stats {
 
@@ -21,13 +16,13 @@ public class Stats {
     private String resismagica;
     private String velomov;
 
-    private int a_campeon;
+    private int aCampeon;
 
     public Stats() {
         super();
     }
 
-    public Stats(String vida, String regvida, String mana, String regmana, String ataque, String veloataque, String armadura, String resismagica, String velomov, int a_campeon) {
+    public Stats(String vida, String regvida, String mana, String regmana, String ataque, String veloataque, String armadura, String resismagica, String velomov, int aCampeon) {
         this.vida = vida;
         this.regvida = regvida;
         this.mana = mana;
@@ -37,7 +32,7 @@ public class Stats {
         this.armadura = armadura;
         this.resismagica = resismagica;
         this.velomov = velomov;
-        this.a_campeon = a_campeon;
+        this.aCampeon = aCampeon;
     }
 
     public String getVida() {
@@ -112,12 +107,12 @@ public class Stats {
         this.velomov = velomov;
     }
 
-    public int getA_campeon() {
-        return a_campeon;
+    public int getACampeon() {
+        return aCampeon;
     }
 
-    public void setA_campeon(int a_campeon) {
-        this.a_campeon = a_campeon;
+    public void setACampeon(int aCampeon) {
+        this.aCampeon = aCampeon;
     }
 
 }

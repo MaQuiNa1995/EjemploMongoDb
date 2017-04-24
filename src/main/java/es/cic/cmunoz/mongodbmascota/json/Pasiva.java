@@ -1,30 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.cic.cmunoz.mongodbmascota.json;
 
 /**
  * @autor cmunoz
- * @Fecha 13-oct-2016
+ * @version 1.0
  */
 public class Pasiva {
 
     private String nombre;
     private String descripcion;
     private String enfriamiento;
-    private int a_campeon;
+    private int aCampeon;
     
     public Pasiva() {
         super();
     }
     
-    public Pasiva(String nombre, String descripcion, String enfriamiento, int a_campeon) {
+    public Pasiva(String nombre, String descripcion, String enfriamiento, int aCampeon) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.enfriamiento = enfriamiento;
-        this.a_campeon = a_campeon;
+        this.aCampeon = aCampeon;
     }
 
     public String getNombre() {
@@ -51,11 +46,11 @@ public class Pasiva {
         this.enfriamiento = enfriamiento;
     }
 
-    public int getA_campeon() {
-        return a_campeon;
+    public int getACampeon() {
+        return aCampeon;
     }
 
-    public void setA_campeon(int a_campeon) {
-        this.a_campeon = a_campeon;
+    public void setACampeon(int aCampeon) {
+        this.aCampeon = aCampeon;
     }
 }

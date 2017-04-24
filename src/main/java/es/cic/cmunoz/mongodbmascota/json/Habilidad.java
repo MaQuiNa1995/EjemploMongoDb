@@ -1,5 +1,9 @@
 package es.cic.cmunoz.mongodbmascota.json;
 
+/**
+ * @autor cmunoz
+ * @version 1.0
+ */
 public class Habilidad {
     
     private String nombre;
@@ -8,20 +12,20 @@ public class Habilidad {
     private String tecla;
     private String coste;
     private String enfriamiento;
-    private int a_campeon;
+    private int aCampeon;
 
     public Habilidad() {
         super();
     }
 
-    public Habilidad(String nombre, String descripcioncorta, String descripcionlarga, String tecla, String coste, String enfriamiento, int a_campeon) {
+    public Habilidad(String nombre, String descripcioncorta, String descripcionlarga, String tecla, String coste, String enfriamiento, int aCampeon) {
         this.nombre = nombre;
         this.descripcioncorta = descripcioncorta;
         this.descripcionlarga = descripcionlarga;
         this.tecla = tecla;
         this.coste = coste;
         this.enfriamiento = enfriamiento;
-        this.a_campeon = a_campeon;
+        this.aCampeon = aCampeon;
     }
 
     public String getCoste() {
@@ -72,11 +76,11 @@ public class Habilidad {
         this.enfriamiento = enfriamiento;
     }
 
-    public int getA_campeon() {
-        return a_campeon;
+    public int getACampeon() {
+        return aCampeon;
     }
 
-    public void setA_campeon(int a_campeon) {
-        this.a_campeon = a_campeon;
+    public void setACampeon(int aCampeon) {
+        this.aCampeon = aCampeon;
     }
 }

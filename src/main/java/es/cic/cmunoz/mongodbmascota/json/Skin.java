@@ -1,30 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.cic.cmunoz.mongodbmascota.json;
 
 /**
  * @autor cmunoz
- * @Fecha 18-nov-2016
+ * @version 1.0
  */
 public class Skin {
 
     private String nombre;
     private String imagen;
     private int costeRP;
-    private int a_campeon;
+    private int aCampeon;
 
     public Skin() {
         super();
     }
 
-    public Skin(String nombre, String imagen, int costeRP, int a_campeon) {
+    public Skin(String nombre, String imagen, int costeRP, int aCampeon) {
         this.nombre = nombre;
         this.imagen = imagen;
         this.costeRP = costeRP;
-        this.a_campeon = a_campeon;
+        this.aCampeon = aCampeon;
     }
 
     public String getNombre() {
@@ -51,17 +46,12 @@ public class Skin {
         this.costeRP = costeRP;
     }
 
-    public int getA_campeon() {
-        return a_campeon;
+    public int getACampeon() {
+        return aCampeon;
     }
 
-    public void setA_campeon(int a_campeon) {
-        this.a_campeon = a_campeon;
-    }
-
-    @Override
-    public String toString() {
-        return "Nombre: " + nombre + ", Imagen: " + imagen + ", CosteRP: " + costeRP + ", a_campeon: " + a_campeon;
+    public void setACampeon(int aCampeon) {
+        this.aCampeon = aCampeon;
     }
 
 }
