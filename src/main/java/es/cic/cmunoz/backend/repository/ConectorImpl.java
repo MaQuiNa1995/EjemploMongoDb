@@ -415,7 +415,8 @@ public final class ConectorImpl implements Conector {
      * Método que imprime en pantalla el contenido de una colección
      *
      * @param coleccionBuscar nombre de la coleccion a consultar
-     * @return listaInfoColeccion - lista que tiene el contenido de una colección
+     * @return listaInfoColeccion - lista que tiene el contenido de una
+     * colección
      * @deprecated No se recomienda el uso de esta funcion ya que usa elementos
      * deprecados que podrían ser eliminados en un futuro
      */
@@ -910,7 +911,32 @@ public final class ConectorImpl implements Conector {
 
     }
 
-//
+    public void guardarMillonUnoAUno() {
+        Utilidades utilidad = new Utilidades();
+
+        try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
+
+            MongoDatabase conexion;
+            conexion = conexionBaseDatos(mongoClient);
+
+            MongoCollection<Document> coleccionGuardar;
+            coleccionGuardar = conexion.getCollection("JuanchoCurvas");
+            
+            List<String> listaFechas =utilidad.generarFechas();
+            
+            for (int i = 1; i < 1000001; i++) {
+
+                Document objetoGuardar = new Document();
+                objetoGuardar.put("Id Curva", utilidad.generarCups(i));
+                objetoGuardar.put("Cups", utilidad.generarCups(i));
+                objetoGuardar.put("Magnitud", utilidad.generarMagnitud());
+                objetoGuardar.put("Fecha", listaFechas.get(i-1));
+                objetoGuardar.put("Valores", utilidad.generarFlags());
+                coleccionGuardar.insertOne(objetoGuardar);
+            }
+        }
+    }
+
 //// -------------------------------------------------------- Metodos Pregunta StackOverflow ---------------------------------------------------
 //// https://es.stackoverflow.com/q/63832/32964
 //    /**

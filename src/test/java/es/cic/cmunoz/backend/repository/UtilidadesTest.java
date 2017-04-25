@@ -45,7 +45,7 @@ public class UtilidadesTest {
 //
 //    @Test
 //    public void generarCampoValoresTest() {
-//        Map<String, Integer> mapaIds = sut.generarCampoValores();
+//        Map<String, Integer> mapaIds = sut.generarMagnitud();
 //
 //        assertEquals(1000000, mapaIds.size());
 //    }

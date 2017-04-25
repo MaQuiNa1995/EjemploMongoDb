@@ -107,7 +107,7 @@ public class Utilidades {
      *
      * @return
      */
-    public String[] generarCampoValores() {
+    public String[] generarMagnitud() {
 
         String valoresArreglo[] = new String[25];
 
