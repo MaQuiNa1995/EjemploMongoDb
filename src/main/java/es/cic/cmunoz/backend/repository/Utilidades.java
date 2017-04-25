@@ -5,7 +5,9 @@
  */
 package es.cic.cmunoz.backend.repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -21,40 +23,38 @@ public class Utilidades {
     /**
      * ------------------ Generadores de Mapas -------------------------
      */
-    
     /**
      *
+     * @param i
      * @return
      */
-    public Map<String, String> generarCups() {
+    public String generarCups(int i) {
 
         final String PRINCIPIOCUPS = "ES00277000000000";
         final String FINCUPS = "0F";
 
-        Map<String, String> mapaCups = new HashMap<>();
+        StringBuilder sb = new StringBuilder(PRINCIPIOCUPS);
 
-        for (int i = 1; i < 1000001; i++) {
-            String cadenaConvertida = annadirCeros(String.valueOf(i));
+        String cadenaConvertida = annadirCeros(String.valueOf(i));
 
-            StringBuilder sb = new StringBuilder(PRINCIPIOCUPS);
-            sb.append(cadenaConvertida);
-            sb.append(FINCUPS);
+        sb.append(cadenaConvertida);
+        sb.append(FINCUPS);
 
-        }
+        String cupsGenerado = sb.toString();
 
-        return mapaCups;
+        return cupsGenerado;
     }
 
     /**
      *
      * @return
      */
-    public Map<String, Integer> generarId() {
+    public List<Integer> generarId() {
 
-        Map<String, Integer> mapaIds = new HashMap<>();
+        List<Integer> mapaIds = new ArrayList<>();
 
         for (int i = 1; i < 1000001; i++) {
-            mapaIds.put("Id", i);
+            mapaIds.add(i);
         }
 
         return mapaIds;
@@ -64,14 +64,14 @@ public class Utilidades {
      *
      * @return
      */
-    public Map<String, String> generarFechas() {
+    public List<String> generarFechas() {
 
         final String ANNO = "2016";
         final int arraymeses[] = generarDiasMeses();
 
         int registrosCompletados = 0;
 
-        Map<String, String> mapaFechas = new HashMap<>();
+        List<String> mapaFechas = new ArrayList<>();
 
         do {
 
@@ -87,10 +87,10 @@ public class Utilidades {
                     fechaCompleta.append(formatearDiaMes(contadorMeses));
                     fechaCompleta.append(formatearDiaMes(dia));
 
-                    mapaFechas.put("fecha", fechaCompleta.toString());
-                    if (registrosCompletados<1000000) {
+                    mapaFechas.add(fechaCompleta.toString());
+                    if (registrosCompletados < 1000000) {
                         registrosCompletados++;
-                    } else{
+                    } else {
                         return mapaFechas;
                     }
 
@@ -107,33 +107,32 @@ public class Utilidades {
      *
      * @return
      */
-    public Map<String, Integer> generarCampoValores() {
+    public String[] generarCampoValores() {
 
-        Map<String, Integer> mapaFechas = new HashMap<>();
+        String valoresArreglo[] = new String[25];
 
         for (int i = 0; i < 25; i++) {
-            mapaFechas.put("valores", 1678);
+            valoresArreglo[i] = "1678";
         }
 
-        return mapaFechas;
+        return valoresArreglo;
+
     }
 
     /**
      *
      * @return
      */
-    public Map<String, Integer> generarFlags() {
+    public String[] generarFlags() {
 
-        Map<String, Integer> mapaFechas = new HashMap<>();
+        String flagsArreglo[] = new String[25];
 
         for (int i = 0; i < 25; i++) {
             Random rand = new Random();
-            int numAleatorio = rand.nextInt(1);
-
-            mapaFechas.put("flag", numAleatorio);
+            flagsArreglo[i] = String.valueOf(rand.nextInt(1));
         }
 
-        return mapaFechas;
+        return flagsArreglo;
     }
 
     /**
