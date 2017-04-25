@@ -63,4 +63,76 @@ public class Utilidades {
 
         return mapaIds;
     }
+
+    private Map<String, String> generarFechas() {
+
+        final String ANNO = "2016";
+        final int arraymeses[] = generarDiasMeses();
+
+        int registrosCompletados=0;
+        
+        Map<String, String> mapaFechas = new HashMap<>();
+
+        do {
+
+            int contadorMeses = 1;
+
+            for (int mes : arraymeses) {
+
+                for (int dia = 1; dia < mes + 1; dia++) {
+
+                    StringBuilder fechaCompleta = new StringBuilder();
+
+                    fechaCompleta.append(ANNO);
+                    fechaCompleta.append(formatearDiaMes(contadorMeses));
+                    fechaCompleta.append(formatearDiaMes(dia));
+
+                    mapaFechas.put("fecha", fechaCompleta.toString());
+                    registrosCompletados++;
+                    
+                }
+                contadorMeses++;
+            }
+            
+        } while (registrosCompletados<1000000);
+        
+        return mapaFechas;
+    }
+
+    private int[] generarDiasMeses() {
+
+        final int ENERO = 31;
+        final int MARZO = 31;
+        final int MAYO = 31;
+        final int JULIO = 31;
+        final int AGOSTO = 31;
+        final int OCTUBRE = 31;
+        final int DICIEMBRE = 31;
+
+        final int ABRIL = 30;
+        final int JUNIO = 30;
+        final int SEPTIEMBRE = 30;
+        final int NOVIEMBRE = 30;
+
+        final int FEBRERO = 28;
+
+        int arrayMeses[] = {
+            ENERO, FEBRERO, MARZO,
+            ABRIL, MAYO, JUNIO,
+            JULIO, AGOSTO, SEPTIEMBRE,
+            OCTUBRE, NOVIEMBRE, DICIEMBRE
+        };
+
+        return arrayMeses;
+    }
+
+    private String formatearDiaMes(int diaMes) {
+        StringBuilder sb = new StringBuilder();
+        if (diaMes < 10) {
+            sb.append("0");
+        }
+        String diaMesFormateado = sb.append(diaMes).toString();
+
+        return diaMesFormateado;
+    }
 }
