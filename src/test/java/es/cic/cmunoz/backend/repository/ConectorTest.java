@@ -1,5 +1,6 @@
-package es.cic.cmunoz.mongodbmascota.basedatos;
+package es.cic.cmunoz.backend.repository;
 
+import es.cic.cmunoz.backend.repository.ConectorImpl;
 import com.mongodb.DB;
 import com.mongodb.DBObject;
 import com.mongodb.client.MongoDatabase;

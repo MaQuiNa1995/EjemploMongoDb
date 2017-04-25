@@ -1,4 +1,4 @@
-package es.cic.cmunoz.mongodbmascota.basedatos;
+package es.cic.cmunoz.backend.repository;
 
 import com.mongodb.DB;
 import com.mongodb.DBObject;

@@ -1,4 +1,4 @@
-package es.cic.cmunoz.mongodbmascota.json;
+package es.cic.cmunoz.backend.dominio;
 
 /**
  * @version 1.0

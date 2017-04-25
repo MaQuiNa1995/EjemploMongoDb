@@ -1,4 +1,4 @@
-package es.cic.cmunoz.mongodbmascota.basedatos;
+package es.cic.cmunoz.backend.repository;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -12,11 +12,11 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
-import es.cic.cmunoz.mongodbmascota.json.Campeon;
-import es.cic.cmunoz.mongodbmascota.json.Habilidad;
-import es.cic.cmunoz.mongodbmascota.json.Pasiva;
-import es.cic.cmunoz.mongodbmascota.json.Skin;
-import es.cic.cmunoz.mongodbmascota.json.Stats;
+import es.cic.cmunoz.backend.dominio.Campeon;
+import es.cic.cmunoz.backend.dominio.Habilidad;
+import es.cic.cmunoz.backend.dominio.Pasiva;
+import es.cic.cmunoz.backend.dominio.Skin;
+import es.cic.cmunoz.backend.dominio.Stats;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
