@@ -7,6 +7,7 @@ package es.cic.cmunoz.backend.repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @version 1.0
@@ -17,7 +18,15 @@ public class Utilidades {
         super();
     }
 
-    private Map<String, String> generarCups() {
+    /**
+     * ------------------ Generadores de Mapas -------------------------
+     */
+    
+    /**
+     *
+     * @return
+     */
+    public Map<String, String> generarCups() {
 
         final String PRINCIPIOCUPS = "ES00277000000000";
         final String FINCUPS = "0F";
@@ -36,24 +45,11 @@ public class Utilidades {
         return mapaCups;
     }
 
-    private String annadirCeros(String cadenaSinCeros) {
-
-        StringBuilder sb = new StringBuilder();
-
-        int cerosAgregar = 7 - cadenaSinCeros.length();
-
-        if (cerosAgregar != 0) {
-            for (int i = 0; i < cerosAgregar; i++) {
-                sb.append("0");
-            }
-        }
-
-        String cadenaConvertida = sb.append(cadenaSinCeros).toString();
-
-        return cadenaConvertida;
-    }
-
-    private Map<String, Integer> generarId() {
+    /**
+     *
+     * @return
+     */
+    public Map<String, Integer> generarId() {
 
         Map<String, Integer> mapaIds = new HashMap<>();
 
@@ -64,13 +60,17 @@ public class Utilidades {
         return mapaIds;
     }
 
-    private Map<String, String> generarFechas() {
+    /**
+     *
+     * @return
+     */
+    public Map<String, String> generarFechas() {
 
         final String ANNO = "2016";
         final int arraymeses[] = generarDiasMeses();
 
-        int registrosCompletados=0;
-        
+        int registrosCompletados = 0;
+
         Map<String, String> mapaFechas = new HashMap<>();
 
         do {
@@ -88,17 +88,58 @@ public class Utilidades {
                     fechaCompleta.append(formatearDiaMes(dia));
 
                     mapaFechas.put("fecha", fechaCompleta.toString());
-                    registrosCompletados++;
                     
+                    if (registrosCompletados<1000000) {
+                        registrosCompletados++;
+                    } else{
+                        return mapaFechas;
+                    }
+
                 }
                 contadorMeses++;
             }
-            
-        } while (registrosCompletados<1000000);
-        
+
+        } while (registrosCompletados < 1000000);
+
         return mapaFechas;
     }
 
+    /**
+     *
+     * @return
+     */
+    public Map<String, Integer> generarCampoValores() {
+
+        Map<String, Integer> mapaFechas = new HashMap<>();
+
+        for (int i = 0; i < 25; i++) {
+            mapaFechas.put("valores", 1678);
+        }
+
+        return mapaFechas;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Map<String, Integer> generarFlags() {
+
+        Map<String, Integer> mapaFechas = new HashMap<>();
+
+        for (int i = 0; i < 25; i++) {
+            Random rand = new Random();
+            int numAleatorio = rand.nextInt(1);
+
+            mapaFechas.put("flag", numAleatorio);
+        }
+
+        return mapaFechas;
+    }
+
+    /**
+     * ------------------------- Utilitarios ----------------------------
+     */
     private int[] generarDiasMeses() {
 
         final int ENERO = 31;
@@ -135,4 +176,22 @@ public class Utilidades {
 
         return diaMesFormateado;
     }
+
+    private String annadirCeros(String cadenaSinCeros) {
+
+        StringBuilder sb = new StringBuilder();
+
+        int cerosAgregar = 7 - cadenaSinCeros.length();
+
+        if (cerosAgregar != 0) {
+            for (int i = 0; i < cerosAgregar; i++) {
+                sb.append("0");
+            }
+        }
+
+        String cadenaConvertida = sb.append(cadenaSinCeros).toString();
+
+        return cadenaConvertida;
+    }
+
 }
