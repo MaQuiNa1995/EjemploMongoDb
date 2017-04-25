@@ -88,7 +88,6 @@ public class Utilidades {
                     fechaCompleta.append(formatearDiaMes(dia));
 
                     mapaFechas.put("fecha", fechaCompleta.toString());
-                    
                     if (registrosCompletados<1000000) {
                         registrosCompletados++;
                     } else{
