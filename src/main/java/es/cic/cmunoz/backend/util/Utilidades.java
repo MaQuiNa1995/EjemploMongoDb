@@ -130,13 +130,13 @@ public class Utilidades {
     public String generarFlags() {
 
         StringBuilder sb = new StringBuilder();
-        
+        final int LIMITE=2;
         Random rand = new Random();
         for (int i = 0; i < 24; i++) {
-            sb.append(String.valueOf(rand.nextInt(1)));
+            sb.append(String.valueOf(rand.nextInt(LIMITE)));
             sb.append(";");
         }
-        sb.append(String.valueOf(rand.nextInt(1)));
+        sb.append(String.valueOf(rand.nextInt(LIMITE)));
 
         String flagGenerada = sb.toString();
         

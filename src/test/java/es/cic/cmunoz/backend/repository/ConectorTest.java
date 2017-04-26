@@ -221,9 +221,14 @@ public class ConectorTest {
         assertTrue(exito);
     }
     
+    @Ignore
     @Test
     public void ejecutarTest(){
-        sut.ejecutarPruebaGuardadoUnMillon();
+        sut.guardadoUnMillon();
     } 
-
+    
+    @Test
+    public void selectIds(){
+        sut.selectIds();
+    } 
 }

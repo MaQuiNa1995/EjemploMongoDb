@@ -428,6 +428,6 @@ public interface Conector {
     //        return coleccionEncontrada;
     //
     //    }
-    void ejecutarPruebaGuardadoUnMillon();
+    void guardadoUnMillon();
 
 }

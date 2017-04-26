@@ -10,9 +10,11 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
+import static com.mongodb.client.model.Filters.eq;
 import es.cic.cmunoz.backend.dominio.Campeon;
 import es.cic.cmunoz.backend.dominio.Habilidad;
 import es.cic.cmunoz.backend.dominio.Pasiva;
@@ -42,10 +44,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public final class ConectorImpl implements Conector {
-    
+
     @Autowired
     private Utilidades utilidad;
-    
+
     /**
      * Logger generico de la clase
      */
@@ -58,6 +60,7 @@ public final class ConectorImpl implements Conector {
     private static final String URLBBDD = "localhost";
     private static final int PUERTOBBDD = 27017;
     private static final String BASEDATOS_NOMBRE = "pruebaJson";
+    private static final String CURVAS_COLECCION = "JuanchoCurvas";
 
     /**
      * Constructor genérico de clase
@@ -928,48 +931,48 @@ public final class ConectorImpl implements Conector {
             conexion = conexionBaseDatos(mongoClient);
 
             MongoCollection<Document> coleccionGuardar;
-            coleccionGuardar = conexion.getCollection("JuanchoCurvas");
-            
-            List<String> listaFechas =utilidad.generarFechas();
+            coleccionGuardar = conexion.getCollection(CURVAS_COLECCION);
+
+            List<String> listaFechas = utilidad.generarFechas();
             List<Integer> listaId = utilidad.generarId();
-            
+
             for (int i = 1; i < 1000001; i++) {
 
                 Document objetoGuardar = new Document();
-                objetoGuardar.put("Id Curva", listaId.get(i-1));
+                objetoGuardar.put("Id Curva", listaId.get(i - 1));
                 objetoGuardar.put("Cups", utilidad.generarCups(i));
                 objetoGuardar.put("Magnitud", utilidad.generarMagnitud());
-                objetoGuardar.put("Fecha", listaFechas.get(i-1));
+                objetoGuardar.put("Fecha", listaFechas.get(i - 1));
                 objetoGuardar.put("Valores", utilidad.generarFlags());
                 coleccionGuardar.insertOne(objetoGuardar);
             }
         }
     }
-    
-    public void guardarMillonHashmap(){
-        
-         try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
+
+    public void guardarMillonHashmap() {
+
+        try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
 
             MongoDatabase conexion;
             conexion = conexionBaseDatos(mongoClient);
 
             MongoCollection<Document> coleccionGuardar;
             coleccionGuardar = conexion.getCollection("JuanchoCurvasHashmap");
-            
-            List<String> listaFechas =utilidad.generarFechas();
+
+            List<String> listaFechas = utilidad.generarFechas();
             List<Integer> listaId = utilidad.generarId();
-            
+
             for (int i = 1; i < 1000001; i++) {
-                
-                Map<String,String> mapa1 = new HashMap<>();
-                Map<String,Integer> mapa2 = new HashMap<>();
-                
-                mapa2.put("Id Curva", listaId.get(i-1));
+
+                Map<String, String> mapa1 = new HashMap<>();
+                Map<String, Integer> mapa2 = new HashMap<>();
+
+                mapa2.put("Id Curva", listaId.get(i - 1));
                 mapa1.put("Cups", utilidad.generarCups(i));
                 mapa1.put("Magnitud", utilidad.generarMagnitud());
-                mapa1.put("Fecha", listaFechas.get(i-1));
+                mapa1.put("Fecha", listaFechas.get(i - 1));
                 mapa1.put("Valores", utilidad.generarFlags());
-                
+
                 Document objetoGuardar = new Document();
                 objetoGuardar.putAll(mapa2);
                 objetoGuardar.putAll(mapa1);
@@ -978,6 +981,39 @@ public final class ConectorImpl implements Conector {
         }
     }
 
+    public void selectIds() {
+
+        long antes = utilidad.conseguirHora();
+
+        LOG.info("-------------------- Empiezo a hacer las selects --------------------");
+        LOG.info("***********Select*****************");
+
+        long[] arregloIds = generarArregloIds();
+        for (int i = 0; i < arregloIds.length; i++) {
+
+            try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
+
+                MongoDatabase conexion;
+                conexion = conexionBaseDatos(mongoClient);
+
+                MongoCollection<Document> coleccionEncontrada;
+                coleccionEncontrada = conexion.getCollection(CURVAS_COLECCION);
+
+                Document resultadoSelect = coleccionEncontrada.find(eq("Id Curva", arregloIds[i])).first();
+
+                if (resultadoSelect != null) {
+                    LOG.log(Level.INFO, "*{0}*", resultadoSelect.toJson());
+                } else {
+                    LOG.log(Level.INFO, "|No hay elementos con el siguiente Id:", String.valueOf(i) + " |");
+                }
+            }
+        }
+        long despues = utilidad.conseguirHora();
+        LOG.info("****************************");
+
+        long tiempoTranscurrido = utilidad.calcularTiempo(antes, despues);
+        LOG.log(Level.INFO, "----------------- Han Pasado: {0} segs ------------------", tiempoTranscurrido);
+    }
 //// -------------------------------------------------------- Metodos Pregunta StackOverflow ---------------------------------------------------
 //// https://es.stackoverflow.com/q/63832/32964
 //    /**
@@ -1067,16 +1103,16 @@ public final class ConectorImpl implements Conector {
 //        return coleccionEncontrada;
 //
 //    }
-    
+
     @Override
-    public void ejecutarPruebaGuardadoUnMillon() {
+    public void guardadoUnMillon() {
 
         LOG.info("----------------- Inicio Guardar Millon 1 a 1 -----------------");
         long antes = utilidad.conseguirHora();
         guardarMillonUnoAUno();
         long despues = utilidad.conseguirHora();
 
-        long tiempoTranscurrido = utilidad.calcularTiempo(antes,despues);
+        long tiempoTranscurrido = utilidad.calcularTiempo(antes, despues);
         LOG.log(Level.INFO, "----------------- Han Pasado: {0} segs ------------------", tiempoTranscurrido);
 
         LOG.info("----------------- Inicio Guardar HashMap -----------------");
@@ -1086,5 +1122,15 @@ public final class ConectorImpl implements Conector {
 
         tiempoTranscurrido = utilidad.calcularTiempo(antes, despues);
         LOG.log(Level.INFO, "----------------- Han Pasado: {0} segs ------------------", tiempoTranscurrido);
+    }
+
+    private long[] generarArregloIds() {
+        final long[] ARREGLO_IDS = {
+            1, 200000, 400000,
+            600000, 800000,
+            1000000, 234567890
+        };
+
+        return ARREGLO_IDS;
     }
 }
