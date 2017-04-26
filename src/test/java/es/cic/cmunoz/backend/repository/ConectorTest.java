@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:es/cic/cmunoz/backend/applicationContext.xml"}
+    "classpath:es/cic/cmunoz/backend/applicationContext.xml"}
 )
 public class ConectorTest {
 
@@ -35,7 +35,7 @@ public class ConectorTest {
      */
     @Before
     public void setUp() {
-        
+
     }
 
     /**
@@ -220,15 +220,21 @@ public class ConectorTest {
         boolean exito = sut.guardarJson();
         assertTrue(exito);
     }
-    
+
     @Ignore
     @Test
-    public void ejecutarTest(){
+    public void ejecutarTest() {
         sut.guardadoUnMillon();
-    } 
-    
+    }
+
+    @Ignore
     @Test
-    public void selectIds(){
+    public void selectIds() {
         sut.selectIds();
-    } 
+    }
+
+    @Test
+    public void selectCups() {
+        sut.selectCups();
+    }
 }

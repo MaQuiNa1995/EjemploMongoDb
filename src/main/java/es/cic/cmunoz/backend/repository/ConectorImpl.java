@@ -986,9 +986,9 @@ public final class ConectorImpl implements Conector {
         long antes = utilidad.conseguirHora();
 
         LOG.info("-------------------- Empiezo a hacer las selects --------------------");
-        LOG.info("***********Select*****************");
+        LOG.info("***********Select *****************");
 
-        long[] arregloIds = generarArregloIds();
+        long[] arregloIds = utilidad.generarArregloIds();
         for (int i = 0; i < arregloIds.length; i++) {
 
             try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
@@ -1008,6 +1008,40 @@ public final class ConectorImpl implements Conector {
                 }
             }
         }
+        long despues = utilidad.conseguirHora();
+        LOG.info("****************************");
+
+        long tiempoTranscurrido = utilidad.calcularTiempo(antes, despues);
+        LOG.log(Level.INFO, "----------------- Han Pasado: {0} segs ------------------", tiempoTranscurrido);
+    }
+
+    public void selectCups() {
+        long antes = utilidad.conseguirHora();
+
+        LOG.info("-------------------- Empiezo a hacer las selects De Cups --------------------");
+        LOG.info("***********Select CUPS*****************");
+
+        List<String> arregloIds = utilidad.generarArreglosCups();
+        for (String arregloId : arregloIds) {
+
+            try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
+
+                MongoDatabase conexion;
+                conexion = conexionBaseDatos(mongoClient);
+
+                MongoCollection<Document> coleccionEncontrada;
+                coleccionEncontrada = conexion.getCollection(CURVAS_COLECCION);
+
+                Document resultadoSelect = coleccionEncontrada.find(eq("Id Curva", arregloId)).first();
+
+                if (resultadoSelect != null) {
+                    LOG.log(Level.INFO, "*{0}*", resultadoSelect.toJson());
+                } else {
+                    LOG.log(Level.INFO, "|No hay elementos con el siguiente Cups:", arregloId + " |");
+                }
+            }
+        }
+
         long despues = utilidad.conseguirHora();
         LOG.info("****************************");
 
@@ -1124,13 +1158,4 @@ public final class ConectorImpl implements Conector {
         LOG.log(Level.INFO, "----------------- Han Pasado: {0} segs ------------------", tiempoTranscurrido);
     }
 
-    private long[] generarArregloIds() {
-        final long[] ARREGLO_IDS = {
-            1, 200000, 400000,
-            600000, 800000,
-            1000000, 234567890
-        };
-
-        return ARREGLO_IDS;
-    }
 }

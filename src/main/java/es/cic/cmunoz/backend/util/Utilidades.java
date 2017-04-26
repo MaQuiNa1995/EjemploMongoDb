@@ -200,6 +200,28 @@ public class Utilidades {
         return cadenaConvertida;
     }
     
+    public long[] generarArregloIds() {
+        final long[] ARREGLO_IDS = {
+            1, 200000, 400000,
+            600000, 800000,
+            1000000, 234567890
+        };
+
+        return ARREGLO_IDS;
+    }
+    
+    public List<String> generarArreglosCups(){
+        Random rand = new Random();
+        List<String> arregloRandoms = new ArrayList<>();
+        
+        for (int i = 0; i < 5; i++) {
+            String cupsGenerado =generarCups((rand.nextInt(1000000)));
+            arregloRandoms.add(cupsGenerado);
+        }
+        
+        return arregloRandoms;
+    }
+    
     public long conseguirHora(){
         return Calendar.getInstance().getTimeInMillis();
     }
