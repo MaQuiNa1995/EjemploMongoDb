@@ -233,8 +233,14 @@ public class ConectorTest {
         sut.selectIds();
     }
 
+    @Ignore
     @Test
     public void selectCups() {
         sut.selectCups();
+    }
+    
+    @Test
+    public void selectFecha() {
+        sut.selectFechas();
     }
 }

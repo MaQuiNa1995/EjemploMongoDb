@@ -923,6 +923,27 @@ public final class ConectorImpl implements Conector {
 
     }
 
+    private MongoCollection<Document> buscarColeccion(String nombreColeccion) {
+
+        /**
+         * Preparación del cliente para la manipulacion de la base de datos
+         */
+        MongoDatabase baseDatos = prepararCliente();
+
+        LOG.log(Level.FINE, "Creando La Coleccion {0} Si No Existia", nombreColeccion);
+
+        /**
+         * Guardado de la coleccion en una variable
+         */
+        MongoCollection<Document> coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
+
+        /**
+         * retorno de la coleccion
+         */
+        return coleccionEncontrada;
+
+    }
+
     public void guardarMillonUnoAUno() {
 
         try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
@@ -939,11 +960,13 @@ public final class ConectorImpl implements Conector {
             for (int i = 1; i < 1000001; i++) {
 
                 Document objetoGuardar = new Document();
+
                 objetoGuardar.put("Id Curva", listaId.get(i - 1));
                 objetoGuardar.put("Cups", utilidad.generarCups(i));
                 objetoGuardar.put("Magnitud", utilidad.generarMagnitud());
                 objetoGuardar.put("Fecha", listaFechas.get(i - 1));
                 objetoGuardar.put("Valores", utilidad.generarFlags());
+
                 coleccionGuardar.insertOne(objetoGuardar);
             }
         }
@@ -1048,6 +1071,32 @@ public final class ConectorImpl implements Conector {
         long tiempoTranscurrido = utilidad.calcularTiempo(antes, despues);
         LOG.log(Level.INFO, "----------------- Han Pasado: {0} segs ------------------", tiempoTranscurrido);
     }
+
+    public void selectFechas() {
+        String fechasArreglo[] = utilidad.generarCincoFechas();
+        for (String fechaSacada : fechasArreglo) {
+            try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
+
+                MongoDatabase conexion;
+                conexion = conexionBaseDatos(mongoClient);
+
+                MongoCollection<Document> coleccionEncontrada;
+                coleccionEncontrada = conexion.getCollection(CURVAS_COLECCION);
+
+                FindIterable<Document> resultadoSelect = coleccionEncontrada.find(eq("Fecha", fechaSacada));
+
+                if (resultadoSelect != null) {
+                    for (Document document : resultadoSelect) {
+                        LOG.log(Level.INFO, "*{0}*", document.toJson());
+                    }
+
+                } else {
+                    LOG.log(Level.INFO, "|No hay elementos con la siguiente Fecha:", fechaSacada + " |");
+                }
+            }
+        }
+    }
+
 //// -------------------------------------------------------- Metodos Pregunta StackOverflow ---------------------------------------------------
 //// https://es.stackoverflow.com/q/63832/32964
 //    /**
@@ -1083,9 +1132,9 @@ public final class ConectorImpl implements Conector {
 //        }
 //    }
 //
-//    /**
-//     * Método simple para la conexión de una base de datos
-//     */
+    /**
+     * Método simple para la conexión de una base de datos
+     */
 //    public void conectarBaseDatosConAutentificacion() {
 //
 //        try {
@@ -1096,13 +1145,13 @@ public final class ConectorImpl implements Conector {
 //
 //            LOG.log(Level.INFO, "Conectando a Base De Datos: {0}...", baseDatos.getName());
 //
-////            boolean auth = baseDatos.authenticate(USUARIO, CONTRASENNA);
-////
-////            if (auth) {
-////                LOG.log(Level.INFO, "Conexión Exitosa");
-////            } else {
-////                LOG.log(Level.INFO, "Conexión Fallida");
-////            }
+//            boolean auth = baseDatos.(USUARIO, CONTRASENNA);
+//
+//            if (auth) {
+//                LOG.log(Level.INFO, "Conexión Exitosa");
+//            } else {
+//                LOG.log(Level.INFO, "Conexión Fallida");
+//            }
 //        } catch (Exception e) {
 //            LOG.log(Level.WARNING, "Excepcion Al Conectarse A La Base De Datos: {0}", e.getMessage());
 //
@@ -1117,27 +1166,6 @@ public final class ConectorImpl implements Conector {
 //     * @return coleccionEncontrada - Collection que contiene la coleccion
 //     * encontrada
 //     */
-//    private MongoCollection<Document> buscarColeccion(String nombreColeccion) {
-//
-//        /**
-//         * Preparación del cliente para la manipulacion de la base de datos
-//         */
-//        MongoDatabase baseDatos = prepararCliente();
-//
-//        LOG.log(Level.FINE, "Creando La Coleccion {0} Si No Existia", nombreColeccion);
-//
-//        /**
-//         * Guardado de la coleccion en una variable
-//         */
-//        MongoCollection<Document> coleccionEncontrada = baseDatos.getCollection(nombreColeccion);
-//
-//        /**
-//         * retorno de la coleccion
-//         */
-//        return coleccionEncontrada;
-//
-//    }
-
     @Override
     public void guardadoUnMillon() {
 

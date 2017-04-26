@@ -21,8 +21,6 @@
     <bean id="utilidad" class="es.cic.cmunoz.backend.util.Utilidades">
     </bean>
     
-    
-    
     <!--
     <tx:annotation-driven mode="proxy" transaction-manager="transactionManager"/>
  	     

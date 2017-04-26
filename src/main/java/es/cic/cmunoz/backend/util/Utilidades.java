@@ -108,6 +108,62 @@ public class Utilidades {
      *
      * @return
      */
+    public String[] generarCincoFechas() {
+
+        final String ANNO = "2016";
+
+        String mapaFechas[] = {
+            null, null, null, null, null
+        };
+
+        for (int i = 0; i < mapaFechas.length; i++) {
+
+            StringBuilder fechaCompleta = new StringBuilder();
+
+            fechaCompleta.append(ANNO);
+            fechaCompleta.append(generarUnDia());
+            fechaCompleta.append(generarUnMes());
+
+            mapaFechas[i] = fechaCompleta.toString();
+        }
+
+        return mapaFechas;
+    }
+
+    private String generarUnDia() {
+
+        Random rand = new Random();
+        int dia = rand.nextInt(30) + 1;
+
+        String diaFormateado;
+        if (dia < 10) {
+            diaFormateado = "0".concat(String.valueOf(dia));
+        } else {
+            diaFormateado = String.valueOf(dia);
+        }
+
+        return diaFormateado;
+    }
+
+    private String generarUnMes() {
+
+        Random rand = new Random();
+        int mes = rand.nextInt(12) + 1;
+
+        String mesFormateado;
+        if (mes < 10) {
+            mesFormateado = "0".concat(String.valueOf(mes));
+        } else {
+            mesFormateado = String.valueOf(mes);
+        }
+
+        return mesFormateado;
+    }
+
+    /**
+     *
+     * @return
+     */
     public String generarMagnitud() {
 
         StringBuilder sb = new StringBuilder();
@@ -130,16 +186,16 @@ public class Utilidades {
     public String generarFlags() {
 
         StringBuilder sb = new StringBuilder();
-        final int LIMITE=2;
+        final int LIMITE = 2;
         Random rand = new Random();
         for (int i = 0; i < 24; i++) {
-            sb.append(String.valueOf(rand.nextInt(LIMITE)));
+            sb.append(String.valueOf(rand.nextInt(LIMITE) + 1));
             sb.append(";");
         }
-        sb.append(String.valueOf(rand.nextInt(LIMITE)));
+        sb.append(String.valueOf(rand.nextInt(LIMITE) + 1));
 
         String flagGenerada = sb.toString();
-        
+
         return flagGenerada;
     }
 
@@ -199,7 +255,7 @@ public class Utilidades {
 
         return cadenaConvertida;
     }
-    
+
     public long[] generarArregloIds() {
         final long[] ARREGLO_IDS = {
             1, 200000, 400000,
@@ -209,24 +265,25 @@ public class Utilidades {
 
         return ARREGLO_IDS;
     }
-    
-    public List<String> generarArreglosCups(){
+
+    public List<String> generarArreglosCups() {
         Random rand = new Random();
         List<String> arregloRandoms = new ArrayList<>();
-        
+
         for (int i = 0; i < 5; i++) {
-            String cupsGenerado =generarCups((rand.nextInt(1000000)));
+            String cupsGenerado = generarCups((rand.nextInt(1000000)));
             arregloRandoms.add(cupsGenerado);
         }
-        
+
         return arregloRandoms;
     }
-    
-    public long conseguirHora(){
+
+    public long conseguirHora() {
         return Calendar.getInstance().getTimeInMillis();
     }
-    public long calcularTiempo(long antes,long despues){
-        return despues -antes;
+
+    public long calcularTiempo(long antes, long despues) {
+        return despues - antes;
     }
 
 }
