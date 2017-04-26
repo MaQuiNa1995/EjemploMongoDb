@@ -921,7 +921,6 @@ public final class ConectorImpl implements Conector {
     }
 
     public void guardarMillonUnoAUno() {
-        Utilidades utilidad = new Utilidades();
 
         try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
 
@@ -948,7 +947,6 @@ public final class ConectorImpl implements Conector {
     }
     
     public void guardarMillonHashmap(){
-        Utilidades utilidad = new Utilidades();
         
          try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
 
@@ -1073,20 +1071,20 @@ public final class ConectorImpl implements Conector {
     @Override
     public void ejecutarPruebaGuardadoUnMillon() {
 
-        LOG.info("Inicio Guardar Millon 1 a 1");
+        LOG.info("----------------- Inicio Guardar Millon 1 a 1 -----------------");
         long antes = utilidad.conseguirHora();
         guardarMillonUnoAUno();
         long despues = utilidad.conseguirHora();
 
-        long tiempoTranscurrido = utilidad.calcularTiempo(despues, antes);
+        long tiempoTranscurrido = utilidad.calcularTiempo(antes,despues);
         LOG.log(Level.INFO, "----------------- Han Pasado: {0} segs ------------------", tiempoTranscurrido);
 
-        LOG.info("Inicio Guardar HashMap");
+        LOG.info("----------------- Inicio Guardar HashMap -----------------");
         antes = utilidad.conseguirHora();
         guardarMillonHashmap();
         despues = utilidad.conseguirHora();
 
-        tiempoTranscurrido = utilidad.calcularTiempo(despues, antes);
+        tiempoTranscurrido = utilidad.calcularTiempo(antes, despues);
         LOG.log(Level.INFO, "----------------- Han Pasado: {0} segs ------------------", tiempoTranscurrido);
     }
 }
