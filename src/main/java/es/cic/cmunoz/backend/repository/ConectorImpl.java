@@ -19,7 +19,9 @@ import es.cic.cmunoz.backend.dominio.Skin;
 import es.cic.cmunoz.backend.dominio.Stats;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -923,15 +925,49 @@ public final class ConectorImpl implements Conector {
             coleccionGuardar = conexion.getCollection("JuanchoCurvas");
             
             List<String> listaFechas =utilidad.generarFechas();
+            List<Integer> listaId = utilidad.generarId();
             
             for (int i = 1; i < 1000001; i++) {
 
                 Document objetoGuardar = new Document();
-                objetoGuardar.put("Id Curva", utilidad.generarCups(i));
+                objetoGuardar.put("Id Curva", listaId.get(i-1));
                 objetoGuardar.put("Cups", utilidad.generarCups(i));
                 objetoGuardar.put("Magnitud", utilidad.generarMagnitud());
                 objetoGuardar.put("Fecha", listaFechas.get(i-1));
                 objetoGuardar.put("Valores", utilidad.generarFlags());
+                coleccionGuardar.insertOne(objetoGuardar);
+            }
+        }
+    }
+    
+    public void guardarMillonHashmap(){
+        Utilidades utilidad = new Utilidades();
+        
+         try (MongoClient mongoClient = new MongoClient(URLBBDD, PUERTOBBDD)) {
+
+            MongoDatabase conexion;
+            conexion = conexionBaseDatos(mongoClient);
+
+            MongoCollection<Document> coleccionGuardar;
+            coleccionGuardar = conexion.getCollection("JuanchoCurvasHashmap");
+            
+            List<String> listaFechas =utilidad.generarFechas();
+            List<Integer> listaId = utilidad.generarId();
+            
+            for (int i = 1; i < 1000001; i++) {
+                
+                Map<String,String> mapa1 = new HashMap<>();
+                Map<String,Integer> mapa2 = new HashMap<>();
+                
+                mapa2.put("Id Curva", listaId.get(i-1));
+                mapa1.put("Cups", utilidad.generarCups(i));
+                mapa1.put("Magnitud", utilidad.generarMagnitud());
+                mapa1.put("Fecha", listaFechas.get(i-1));
+                mapa1.put("Valores", utilidad.generarFlags());
+                
+                Document objetoGuardar = new Document();
+                objetoGuardar.putAll(mapa2);
+                objetoGuardar.putAll(mapa1);
                 coleccionGuardar.insertOne(objetoGuardar);
             }
         }

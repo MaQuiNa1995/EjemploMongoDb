@@ -107,15 +107,18 @@ public class Utilidades {
      *
      * @return
      */
-    public String[] generarMagnitud() {
+    public String generarMagnitud() {
 
-        String valoresArreglo[] = new String[25];
+        StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < 25; i++) {
-            valoresArreglo[i] = "1678";
+        for (int i = 0; i < 24; i++) {
+            sb.append("1678;");
         }
+        sb.append("1678");
 
-        return valoresArreglo;
+        String magnitudGenerada = sb.toString();
+
+        return magnitudGenerada;
 
     }
 
@@ -123,16 +126,20 @@ public class Utilidades {
      *
      * @return
      */
-    public String[] generarFlags() {
+    public String generarFlags() {
 
-        String flagsArreglo[] = new String[25];
-
-        for (int i = 0; i < 25; i++) {
-            Random rand = new Random();
-            flagsArreglo[i] = String.valueOf(rand.nextInt(1));
+        StringBuilder sb = new StringBuilder();
+        
+        Random rand = new Random();
+        for (int i = 0; i < 24; i++) {
+            sb.append(String.valueOf(rand.nextInt(1)));
+            sb.append(";");
         }
+        sb.append(String.valueOf(rand.nextInt(1)));
 
-        return flagsArreglo;
+        String flagGenerada = sb.toString();
+        
+        return flagGenerada;
     }
 
     /**
