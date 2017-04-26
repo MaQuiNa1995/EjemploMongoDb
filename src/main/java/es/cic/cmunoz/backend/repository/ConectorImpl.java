@@ -1,5 +1,6 @@
 package es.cic.cmunoz.backend.repository;
 
+import es.cic.cmunoz.backend.util.Utilidades;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -26,6 +27,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  * Clase ConectorImpl tiene métodos para conectarse y manipular una base de
@@ -37,8 +40,12 @@ import org.bson.Document;
  *
  * @version 1.0
  */
+@Repository
 public final class ConectorImpl implements Conector {
-
+    
+    @Autowired
+    private Utilidades utilidad;
+    
     /**
      * Logger generico de la clase
      */
@@ -1062,4 +1069,24 @@ public final class ConectorImpl implements Conector {
 //        return coleccionEncontrada;
 //
 //    }
+    
+    @Override
+    public void ejecutarPruebaGuardadoUnMillon() {
+
+        LOG.info("Inicio Guardar Millon 1 a 1");
+        long antes = utilidad.conseguirHora();
+        guardarMillonUnoAUno();
+        long despues = utilidad.conseguirHora();
+
+        long tiempoTranscurrido = utilidad.calcularTiempo(despues, antes);
+        LOG.log(Level.INFO, "----------------- Han Pasado: {0} segs ------------------", tiempoTranscurrido);
+
+        LOG.info("Inicio Guardar HashMap");
+        antes = utilidad.conseguirHora();
+        guardarMillonHashmap();
+        despues = utilidad.conseguirHora();
+
+        tiempoTranscurrido = utilidad.calcularTiempo(despues, antes);
+        LOG.log(Level.INFO, "----------------- Han Pasado: {0} segs ------------------", tiempoTranscurrido);
+    }
 }

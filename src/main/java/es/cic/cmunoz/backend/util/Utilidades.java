@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.cic.cmunoz.backend.repository;
+package es.cic.cmunoz.backend.util;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,14 +163,14 @@ public class Utilidades {
 
         final int FEBRERO = 28;
 
-        int arrayMeses[] = {
+        final int ARREGLOMESES[] = {
             ENERO, FEBRERO, MARZO,
             ABRIL, MAYO, JUNIO,
             JULIO, AGOSTO, SEPTIEMBRE,
             OCTUBRE, NOVIEMBRE, DICIEMBRE
         };
 
-        return arrayMeses;
+        return ARREGLOMESES;
     }
 
     private String formatearDiaMes(int diaMes) {
@@ -197,6 +198,13 @@ public class Utilidades {
         String cadenaConvertida = sb.append(cadenaSinCeros).toString();
 
         return cadenaConvertida;
+    }
+    
+    public long conseguirHora(){
+        return Calendar.getInstance().getTimeInMillis();
+    }
+    public long calcularTiempo(long antes,long despues){
+        return despues -antes;
     }
 
 }

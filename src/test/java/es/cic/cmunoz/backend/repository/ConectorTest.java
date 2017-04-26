@@ -1,6 +1,5 @@
 package es.cic.cmunoz.backend.repository;
 
-import es.cic.cmunoz.backend.repository.ConectorImpl;
 import com.mongodb.DB;
 import com.mongodb.DBObject;
 import com.mongodb.client.MongoDatabase;
@@ -10,35 +9,39 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @version 1.1.1
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+	"classpath:es/cic/cmunoz/backend/applicationContext.xml"}
+)
 public class ConectorTest {
 
     /**
      * Objeto de la clase a probar
      */
+    @Autowired
     private ConectorImpl sut;
-
-    /**
-     * Constructor genérico
-     */
-    public ConectorTest() {
-        super();
-    }
 
     /**
      * Método que se inicia cada vez que hacemos un test
      */
     @Before
     public void setUp() {
-        sut = new ConectorImpl();
+        
     }
 
     /**
      * Testeo del metodo prepararClienteTest
      */
+    @Ignore
     @Test
     public void prepararClienteTest() {
 
@@ -50,6 +53,7 @@ public class ConectorTest {
     /**
      * Testeo del metodo prepararClienteDeprecado
      */
+    @Ignore
     @Test
     public void prepararClienteDeprecadoTest() {
 
@@ -62,6 +66,7 @@ public class ConectorTest {
     /**
      * Testeo del metodo guardarObjetoPredefinido
      */
+    @Ignore
     @Test
     public void guardarObjetoPredefinidoTest() {
         boolean exito = sut.guardarObjetoPredefinido("coleccionTest");
@@ -71,6 +76,7 @@ public class ConectorTest {
     /**
      * Testeo del metodo verNombresBasesDatos
      */
+    @Ignore
     @Test
     public void verNombresbasesDatosTest() {
 
@@ -86,6 +92,7 @@ public class ConectorTest {
     /**
      * Testeo del metodo guardarObjetoPredefinido
      */
+    @Ignore
     @Test
     public void verColeccionesBaseDatosTest() {
         /**
@@ -106,6 +113,7 @@ public class ConectorTest {
     /**
      * Testeo del metodo eliminarColeccion
      */
+    @Ignore
     @Test
     @SuppressWarnings("deprecation")
     public void eliminarColeccionTest() {
@@ -122,6 +130,7 @@ public class ConectorTest {
     /**
      * Testeo del metodo existeColeccion
      */
+    @Ignore
     @Test
     @SuppressWarnings("deprecation")
     public void existeColeccionTest() {
@@ -142,6 +151,7 @@ public class ConectorTest {
     /**
      * Testeo del metodo verColeccionDeprecado
      */
+    @Ignore
     @Test
     @SuppressWarnings("deprecation")
     public void verColeccionDeprecadoTest() {
@@ -162,6 +172,7 @@ public class ConectorTest {
     /**
      * Testeo del metodo anadirCampo
      */
+    @Ignore
     @Test
     public void anadirCampoTest() {
         String nombreColeccion = "pruebaUpdate";
@@ -176,6 +187,7 @@ public class ConectorTest {
     /**
      * Testeo del metodo deleteRegistroContenidoEnLista
      */
+    @Ignore
     @Test
     @SuppressWarnings("deprecation")
     public void deleteRegistroListaTest() {
@@ -201,11 +213,17 @@ public class ConectorTest {
     /**
      * Testeo del metodo guardarJson
      */
+    @Ignore
     @Test
     public void guardarJsonTest() {
 
         boolean exito = sut.guardarJson();
         assertTrue(exito);
     }
+    
+    @Test
+    public void ejecutarTest(){
+        sut.ejecutarPruebaGuardadoUnMillon();
+    } 
 
 }
