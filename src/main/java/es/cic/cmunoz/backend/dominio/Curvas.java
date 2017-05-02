@@ -6,13 +6,17 @@
 
 package es.cic.cmunoz.backend.dominio;
 
+import org.springframework.data.annotation.Id;
+
 /**
  * @autor cmunoz
  * @version 1.0
  */
 public class Curvas {
 
-    private int id;
+    @Id
+    private String id;
+    private int idCurva;
     private String cups;
     private  int magnitud;
     private  String fecha;
@@ -23,8 +27,8 @@ public class Curvas {
         
     }
 
-    public Curvas(int id, String cups, int magnitud, String fecha, String valores, String flag) {
-        this.id = id;
+    public Curvas(int idCurva, String cups, int magnitud, String fecha, String valores, String flag) {
+        this.idCurva = idCurva;
         this.cups = cups;
         this.magnitud = magnitud;
         this.fecha = fecha;
@@ -32,13 +36,23 @@ public class Curvas {
         this.flag = flag;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
+
+    public int getIdCurva() {
+        return idCurva;
+    }
+
+    public void setIdCurva(int idCurva) {
+        this.idCurva = idCurva;
+    }
+    
+    
 
     public String getCups() {
         return cups;

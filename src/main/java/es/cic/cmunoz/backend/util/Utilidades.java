@@ -20,10 +20,7 @@ public class Utilidades {
     public Utilidades() {
         super();
     }
-
-    /**
-     * ------------------ Generadores de Mapas -------------------------
-     */
+    
     /**
      *
      * @param i
