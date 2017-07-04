@@ -1,0 +1,103 @@
+mongod --dbpath C:\Users\cmunoz\Documents\MongoDbDatos 
+
+---------------------------------- Información Base De Datos ---------------------------
+
+Ver Bases De Datos: 
+	show dbs
+
+Ver nombre base de datos actual:
+	db
+
+Ver las colecciones de la base de datos actual:
+	show collections
+
+Ver usuarios:
+	show users
+
+Ver direccion y puerto de la base de datos actual:
+	db.getMongo()
+
+ver estadisticas de conexiones:
+	db.serverStatus().conecctions
+------------------------------------------ Operaciones ---------------------------------
+
+Insert (Valor entre comillas para Strings)
+
+	db.nombreColeccion.insert(
+		{ nombreCampo : valor }
+	)
+
+	db.nombreColeccion.save(
+		{ nombreCampo : valor }
+	)
+
+Select:
+
+	Select * from nombreTabla
+	db.nombreColeccion.find()
+	
+	Select * from nombreTabla
+	limit 1
+	db.nombreColeccion.findOne()
+
+Select Especifico:
+
+	Select * from nombreTabla where campo = 'valor'
+	db.nombreColeccion.find({"Campo": valor})
+
+Select por valores condicion (igual a bash)
+
+	select * from nombretabla
+	where campo > numero
+
+	db.coleccion.find({"Valor": {$Condicion: numero}})
+
+
+Order By:
+
+	Select * from nombretabla order by "campo" desc
+
+	db.collection.find().sort ({"Clave" : -1/1 })
+
+	-1 descendente
+	1 ascendente
+
+
+Delete (Valor entre comillas para Strings):
+	Borrará todos los campos que cumplan esa condición sin importar nada mas (numero de campos por ejemplo)
+	
+	DELETE FROM nombreTabla
+	WHERE columna=valor;
+
+	db.nombreColeccion.remove(
+		{"campo": valor}
+	)
+
+Drop Database (Borra la base de datos actual):
+	drop database nombreBDDD
+	db.dropDatabase()
+
+Drop Table:
+	drop table nombreTabla
+	db.nombreColeccion.drop()
+
+------------------------------------------ Clausulas ---------------------------------
+
+Clausula Limit si no pones numero o pones 0, no hay limite:
+
+	Si pones negativos los convierte a positivos
+
+	select * from nombreTabla limit numero
+	db.nombreColeccion.metodo().limit(numero)
+
+------------------------------ Expresiones Regulares ---------------------------------
+
+db.getCollection('JuanchoCurvas').find({"Fecha": /^[2016]+([01]+)*$/,"Fecha": /^[2016]+([01]+)*$/})
+
+INFO: Como java es mas o menos con eso
+
+/^[2016]+([01]+)?$/.test(medida)  Medida = lo que quieras comparar
+
+https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Regular_Expressions
+
+
